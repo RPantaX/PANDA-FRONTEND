@@ -4,20 +4,19 @@ import { TrabajadorList } from "../components/TrabajadorList";
 import { TrabajadorModalForm } from "../components/TrabajadorModalForm";
 import { UserContext } from "../context/UserContext";
 
+
 export const TrabajadoresPages = () => {
-    const {
-      trabajadores,
-      visibleForm,
-      handlerOpenForm,
-      getTrabajadores
-    }= useContext(UserContext);
 
-    useEffect(() => {
-      getTrabajadores();
-    }, [])
-    
-    console.log(trabajadores);
+      const {
+        trabajadores,
+        visibleForm,
+        handlerOpenForm,
+        getTrabajadores,
+      } = useContext(UserContext);
 
+      useEffect(() => {
+        getTrabajadores();
+      }, []);
     return (
     <>
       {!visibleForm || 
@@ -37,14 +36,14 @@ export const TrabajadoresPages = () => {
                 }
                 
                 {
-                    trabajadores.totalElementos===0
+                    trabajadores.totalElementos === 0
                     ? <div className="alert alert-warning">No hay usuarios en el sistema!</div>
-                    :<TrabajadorList/>
+                    :<TrabajadorList />
                 }
                   
               </div>
           </div>
       </div>
     </>
-  )
+  );
 }

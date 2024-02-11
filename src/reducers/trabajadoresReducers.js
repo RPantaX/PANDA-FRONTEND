@@ -1,28 +1,32 @@
 
-export const trabajadoresReducers = (state=[], action) => {
+export const trabajadoresReducers = (state={}, action) => {
     switch(action.type){
         case 'addTrabajador':
-            return [
+            return {
                 ...state,
-                {
-                  ...action.payload
-                }
-              ];
+                contenido: [...state.contenido, action.payload]
+            };
         case 'removeTrabajador':
-            return state.filter(trabajador=> trabajador.id !== action.payload);
+            return {
+                ...state,
+                contenido: state.contenido.filter(trabajador => trabajador.id !== action.payload)
+            };
         
         case 'updateTrabajador':
-            return state.map(u=>{
-                if(u.id === action.payload.id){
-                    return {
-                        ...action.payload
-                    };
-                }
-                return u;
-            });
+            return {
+                ...state,
+                contenido: state.contenido.map(u => {
+                    if(u.id === action.payload.id){
+                        return {
+                            ...action.payload
+                        };
+                    }
+                    return u;
+                })
+            };
         case 'loadingTrabajadores':
             return action.payload;
         default:
-            state;
+            return state;
     }
 }

@@ -1,120 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import Swal from "sweetalert2";
 import { UserContext } from "../context/UserContext";
-const nacionalidadesBD=[
-    {
-        id:1,
-        nombreNacionalidad: 'Argentina'
-    },
-    {
-        id:2,
-        nombreNacionalidad: 'Brasileña'
-    },
-    {
-        id:3,
-        nombreNacionalidad: 'Chilena'
-    },
-    {
-        id:4,
-        nombreNacionalidad: 'Colombiana'
-    },
-    {
-        id:5,
-        nombreNacionalidad: 'Mexicana'
-    },
-    {
-        id:6,
-        nombreNacionalidad: 'Peruana'
-    },
-    {
-        id:7,
-        nombreNacionalidad: 'Española'
-    },
-
-    {
-        id:8,
-        nombreNacionalidad: 'Estadounidense'
-    },
-    {
-        id:9,
-        nombreNacionalidad : 'Otra'
-    }
-]
-const cargosBD=[
-    {
-        id:1,
-        nombreCargo: 'Conductor_de_Camion'
-    },
-    {
-        id:2,
-        nombreCargo: 'Coordinador_de_Logistica'
-    },
-    {
-        id:3,
-        nombreCargo: 'Mecanico_de_Vehiculos'
-    },
-    {
-        id:4,
-        nombreCargo: 'Gerente_de_Flota'
-    },
-    {
-        id:5,
-        nombreCargo: 'Especialista_en_Seguridad_del_Transporte'
-    },
-    {
-        id:6,
-        nombreCargo: 'Representante_de_Servicio_al_Cliente'
-    },
-    {
-        id:7,
-        nombreCargo: 'Ingeniero_de_Sistemas'
-    },
-
-    {
-        id:8,
-        nombreCargo: 'Gerente_de_Recursos_Humanos'
-    },
-    {
-        id:9,
-        nombreCargo: 'Representante_de_Ventas'
-    },
-    {
-        id:10,
-        nombreCargo: 'CEO_Director_Ejecutivo'
-    }
-]
-const generosBD=[
-    {
-        id:1,
-        nombreGenero: 'Masculino'
-    },
-    {
-        id:2,
-        nombreGenero: 'Femenino'
-    },
-    {
-        id:3,
-        nombreGenero: 'Otro'
-    }
-]
-const estadosBD=[
-    {
-        id:1,
-        nombreEstadoCivil: 'Soltero'
-    },
-    {
-        id:2,
-        nombreEstadoCivil: 'Casado'
-    },
-    {
-        id:3,
-        nombreEstadoCivil: 'Divorciado'
-    },
-    {
-        id:4,
-        nombreEstadoCivil: 'Viudo'
-    }
-]
+import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidadesBD } from "../utilities/ObjectsBD";
 
 export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
     const {handlerAddTrabajador, initialTrabajadorForm}= useContext(UserContext);
@@ -122,24 +9,29 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
     const {id, nombres, apellidos, numIdentidad, fechaNacimiento,genero,estadoCivil, nacionalidad, direccionResidencia,telefono, email, cargo, numCuentaBancaria, estado, idUser}=trabajadorForm;
     const [nacionalidades, setNacionalidades] = useState([]);
     const [cargos, setCargos] = useState([]);
-    const [estados, setEstados] = useState([]);
+    const [estadosCiviles, setEstadoCivil] = useState([]);
     const [generos, setGeneros] = useState([]);
-    
+    const [status, setStatus] = useState([])
     useEffect(() => {
-        setTrabajadorForm({
-            ...trabajadorSelected});
+        //formateo de bd cuando actualizamos un registro
+            if (trabajadorSelected.fechaNacimiento) {
+                trabajadorSelected.fechaNacimiento = formatDate(trabajadorSelected.fechaNacimiento);
+            }
+            setTrabajadorForm({
+                ...trabajadorSelected
+            });
     }, [trabajadorSelected])
     
     useEffect(() => {
         // Fetch de Nacionalidades
-          setNacionalidades(nacionalidadesBD);
-    
+        setNacionalidades(nacionalidadesBD);
         // Fetch de Cargos
         setCargos(cargosBD);
         //fetch de Generos
-        setEstados(estadosBD);
+        setEstadoCivil(estadoCivilBD);
         //fetch de generos
         setGeneros(generosBD);
+        setStatus(estadoBD);
       }, []);
 
     const onInputChange = ({target})=>{
@@ -160,6 +52,7 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
             return;
         }
         handlerAddTrabajador(trabajadorForm)
+        console.log(trabajadorForm);
         setTrabajadorForm(initialTrabajadorForm);
     }
     const onCloseForm=()=>{
@@ -219,7 +112,7 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
             onChange={onInputChange}
         >
             <option value="">Seleccione estado civil</option>
-            {estados.map((est) => (
+            {estadosCiviles.map((est) => (
             <option key={est.id} value={est.id}>
                 {est.nombreEstadoCivil}
             </option>
@@ -285,8 +178,12 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
             value={estado}
             onChange={onInputChange}
         >
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
+            <option value="">Seleccione Estado</option>
+            {status.map((status) => (
+            <option key={status.id} value={status.estado}>
+                {status.estado}
+            </option>
+            ))}
         </select>
         <input 
             className="form-control my-3 w-75"

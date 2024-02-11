@@ -1,10 +1,17 @@
 import { useReducer, useState } from "react";
 import Swal from "sweetalert2";
 import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { findAll } from "../../services/trabajadorService";
+import { findAll, remove, save, update } from "../../services/trabajadorService";
+import { useNavigate } from "react-router-dom";
 
-const initialTrabajadores = {};
-
+const initialTrabajadores = {
+  contenido: [],
+  numeroPagina: 0,
+  medidaPagina: 0,
+  totalElementos: 0,
+  totalPaginas: 0,
+  ultima: true
+};
 const initialTrabajadorForm = {
         id: 0,
         nombres: '',
@@ -31,25 +38,30 @@ const initialTrabajadorForm = {
         estado:'',
         idUser:0
 }
-
 export const useTrabajadores = () => {
     const [trabajadores, dispatch] = useReducer(trabajadoresReducers, initialTrabajadores);
     const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
     const [visibleForm, setVisibleForm] = useState(false);
+    const navigate=useNavigate();
 
     const getTrabajadores = async () =>{
       const result = await findAll();
-      console.log(result.data);
       dispatch({
         type: 'loadingTrabajadores',
-        payload: result.data
+        payload: result.data,
       });
     }
 
-    const handlerAddTrabajador=(trabajador)=>{
-        dispatch({
-          type: trabajador.id === 0 ? 'addTrabajador' : 'updateTrabajador',
-          payload: trabajador
+    const handlerAddTrabajador=async(trabajador)=>{
+      let response;
+      if(trabajador.id===0){
+        response= await save(trabajador);
+      } else{
+        response= await update(trabajador);
+      }
+      dispatch({
+          type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
+          payload: response.data,
         });
         Swal.fire({
             title: "Trabajador Creado",
@@ -57,6 +69,7 @@ export const useTrabajadores = () => {
             icon: "success"
           });
           handlerCloseForm();
+          navigate('/trabajadores')
       }
 
       const handlerRemoveTrabajador=(id)=>{
@@ -77,6 +90,7 @@ export const useTrabajadores = () => {
             reverseButtons: true
           }).then((result) => {
             if (result.isConfirmed) {
+              remove(id);
                 dispatch({
                     type:'removeTrabajador',
                     payload:id

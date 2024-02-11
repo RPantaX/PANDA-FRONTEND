@@ -1,15 +1,17 @@
 .navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 2px;
     background-color: #001529; /* Color de fondo para la barra de navegación */
     color: #fff; /* Color de texto para la barra de navegación */
+    
   }
   
   .user-info {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
   
   .user-info span {
