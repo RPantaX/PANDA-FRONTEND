@@ -1,8 +1,23 @@
-import { useContext } from "react"
-import { TrabajadorRow } from "./TrabajadorRow"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/UserContext";
 import { Table } from "antd";
-const columns = [
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
+import { NavLink } from "react-router-dom";
+
+export const TrabajadorList = () => {
+  
+  const {trabajadores,getTrabajadores,handlerRemoveTrabajador}= useContext(UserContext);
+  
+  const {contenido}=trabajadores|| { contenido: [] };
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true)
+    getTrabajadores(0);
+    setLoading(false);
+  }, []);
+
+  const columns = [
   {
     title: 'ID',
     width: 100,
@@ -12,7 +27,7 @@ const columns = [
   },
   {
     title: 'Nombres',
-    width: 100,
+    width: 200,
     dataIndex: 'nombres',
     key: 'nombres',
     fixed: 'left',
@@ -21,7 +36,7 @@ const columns = [
     title: 'apellidos',
     dataIndex: 'apellidos',
     key: 'apellidos',
-    width: 150,
+    width: 200,
   },
   {
     title: 'N° de identidad',
@@ -65,7 +80,7 @@ const columns = [
     title: 'Direc. Residencia',
     dataIndex: 'direccionResidencia',
     key: 'direccionResidencia',
-    width: 150,
+    width: 300,
   },
   {
     title: 'Teléfono',
@@ -77,7 +92,7 @@ const columns = [
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    width: 150,
+    width: 250,
   },
   {
     title: 'Cargo',
@@ -116,51 +131,37 @@ const columns = [
     width: 150,
   },
   {
-    title: 'Action',
+    title: 'Actions',
     key: 'operation',
     fixed: 'right',
     width: 100,
-    render: () => <a>action</a>,
+    render: (record)=>{
+      return <>
+      <NavLink to={`/trabajadores/edit/${record.id}`}>
+      <EditOutlined />
+      </NavLink>
+      <DeleteOutlined onClick={()=>handlerRemoveTrabajador(record.id)} style={{color:"red", marginLeft: 12}} />
+      </>
+    }
   },
 ];
-/*<Table columns={columns} dataSource={contenido}  scroll={{
-        x: 1500,
-        y: 300,
-      }} >*/
-export const TrabajadorList = () => {
-
-  const {trabajadores}= useContext(UserContext);
-  
-  const {contenido}=trabajadores|| { contenido: [] };
-  console.log(contenido);
     return (
-      <table className="table table-hover">
-        <thead >
-          <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>DNI/CEDULA</th>
-            <th>Nacionalidad</th>
-            <th>Telefono</th>
-            <th>Email</th>
-            <th>Cargo</th>
-            <th>Estado</th>
-            <th>update</th>
-            <th>update route</th>
-            <th>remove</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {
-            contenido.map((cont)=>(
-                <TrabajadorRow 
-                key={cont.id} 
-                contenido={cont}/>
-            ))
-          }
-        </tbody>
-        </table>
+      <Table 
+      loading={loading} 
+      columns={columns} 
+      dataSource={contenido}  
+      scroll={{
+        x: 1500,
+        y: 1500,
+      }}
+      pagination={{
+        pageSize:10,
+        total:totalPages,
+        onChange: (page)=>{
+          getTrabajadores(page);
+        }
+      }} 
+      rowKey="id"
+      />
   )
 }

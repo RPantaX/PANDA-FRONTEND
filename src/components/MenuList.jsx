@@ -6,7 +6,7 @@ import {HomeOutlined,
     FileDoneOutlined,
     FilePdfOutlined,
     FilePptOutlined } from '@ant-design/icons'
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 export const MenuList = () => {
   return (
     
@@ -23,8 +23,7 @@ export const MenuList = () => {
 
             <Menu.SubMenu key="plantel" icon={<AppstoreOutlined />}
             title="Plantel">
-                <Menu.Item className="sub-menu" key={"choferes"}>
-                <NavLink to="/trabajadores/register">choferes</NavLink>
+                <Menu.Item className="sub-menu" key={"choferes"}>Choferes
                 </Menu.Item>
                 <Menu.Item className="sub-menu" key={"camiones"}>camiones
                 </Menu.Item>

@@ -38,14 +38,33 @@ const initialTrabajadorForm = {
         estado:'',
         idUser:0
 }
+const initialErrors = {
+  id: '',
+  nombres: '',
+  apellidos: '',
+  numIdentidad: '',
+  fechaNacimiento: '',
+  genero: '',
+  estadoCivil: '',
+  nacionalidad: '',
+  direccionResidencia: '',
+  telefono: '',
+  email: '',
+  cargo: '',
+  fechaIngreso: '',
+  numCuentaBancaria: '',
+  estado:''
+}
 export const useTrabajadores = () => {
     const [trabajadores, dispatch] = useReducer(trabajadoresReducers, initialTrabajadores);
     const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
     const [visibleForm, setVisibleForm] = useState(false);
+    const [errors, setErrors] = useState(initialErrors);
+
     const navigate=useNavigate();
 
-    const getTrabajadores = async () =>{
-      const result = await findAll();
+    const getTrabajadores = async (page) =>{
+      const result = await findAll(page);
       dispatch({
         type: 'loadingTrabajadores',
         payload: result.data,
@@ -54,22 +73,41 @@ export const useTrabajadores = () => {
 
     const handlerAddTrabajador=async(trabajador)=>{
       let response;
-      if(trabajador.id===0){
-        response= await save(trabajador);
-      } else{
-        response= await update(trabajador);
-      }
-      dispatch({
-          type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
-          payload: response.data,
-        });
-        Swal.fire({
-            title: "Trabajador Creado",
-            text: "El trabajador ha sido creado con éxito!",
-            icon: "success"
+      try {
+        if(trabajador.id===0){
+          response= await save(trabajador);
+        } else{
+          response= await update(trabajador);
+        }
+        dispatch({
+            type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
+            payload: response.data,
           });
-          handlerCloseForm();
-          navigate('/trabajadores')
+          Swal.fire({
+              title: "Trabajador Creado",
+              text: "El trabajador ha sido creado con éxito!",
+              icon: "success"
+            });
+            handlerCloseForm();
+            navigate('/trabajadores')
+      } catch (error) {
+        if(error.response && error.response.status==400){
+          setErrors(error.response.data);
+        }else if (error.response && error.response.status==500 && 
+          error.response.data?.mensaje?.includes('ya existe')){
+            if(error.response.data?.mensaje?.includes('identidad')){
+              setErrors({numIdentidad: error.response.data.mensaje})
+            }
+            if(error.response.data?.mensaje?.includes('bancaria')){
+              setErrors({numCuentaBancaria: error.response.data.mensaje})
+            }
+            if(error.response.data?.mensaje?.includes('email')){
+              setErrors({email: error.response.data.mensaje})
+            }
+        }else{
+          throw error;
+        }
+      }
       }
 
       const handlerRemoveTrabajador=(id)=>{
@@ -122,12 +160,14 @@ export const useTrabajadores = () => {
       const handlerCloseForm=()=>{
         setVisibleForm(false);
         setTrabajadorSelected(initialTrabajadorForm);
+        setErrors({});
       }
       return {
         trabajadores,
         trabajadorSelected,
         initialTrabajadorForm,
         visibleForm,
+        errors,
         handlerAddTrabajador,
         handlerRemoveTrabajador,
         handlerTrabajadorSelectedForm,

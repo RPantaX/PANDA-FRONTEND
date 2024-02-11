@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react"
-import Swal from "sweetalert2";
 import { UserContext } from "../context/UserContext";
 import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidadesBD } from "../utilities/ObjectsBD";
+import { Button, Form, Input, Select } from "antd";
+import './formStyles.css';
 
-export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
-    const {handlerAddTrabajador, initialTrabajadorForm}= useContext(UserContext);
+export const TrabajadorForm = ({trabajadorSelected}) => {
+    const {handlerAddTrabajador, initialTrabajadorForm, errors}= useContext(UserContext);
     const [trabajadorForm, setTrabajadorForm] = useState(initialTrabajadorForm)
     const {id, nombres, apellidos, numIdentidad, fechaNacimiento,genero,estadoCivil, nacionalidad, direccionResidencia,telefono, email, cargo, numCuentaBancaria, estado, idUser}=trabajadorForm;
     const [nacionalidades, setNacionalidades] = useState([]);
@@ -35,6 +36,7 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
       }, []);
 
     const onInputChange = ({target})=>{
+        
         const{name, value} = target;
         setTrabajadorForm({
             ...trabajadorForm,
@@ -43,169 +45,317 @@ export const TrabajadorForm = ({trabajadorSelected, handlerCloseForm}) => {
     }
     const onSubmit=(event)=>{
         event.preventDefault() //previene que se refresque la página
-        if(!nombres || (!apellidos && id===0) || !email){
-            Swal.fire({
-                title: "Error de validación",
-                text: "Debe completar los campos del formulario",
-                icon: "error"
-              });
-            return;
-        }
+        
         handlerAddTrabajador(trabajadorForm)
-        console.log(trabajadorForm);
-        setTrabajadorForm(initialTrabajadorForm);
     }
-    const onCloseForm=()=>{
-        handlerCloseForm();
-        setTrabajadorForm(initialTrabajadorForm);
-    }
+
     return (
-    <form onSubmit={onSubmit}>
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="Nombres"
-            name="nombres"
-            value={nombres}
-            onChange={onInputChange}
-            />
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="Apellidos"
-            type="apellidos"
-            name="apellidos"
-            value={apellidos}
-            onChange={onInputChange}
-            />
-        
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="DNI/CEDULA"
-            name="numIdentidad"
-            value={numIdentidad}
-            onChange={onInputChange}
-            />
-        <label >Fecha de nacimiento</label>
-        <input 
-            className="form-control my-3 w-75"
-            name="fechaNacimiento"
-            type="date"
-            value={fechaNacimiento}
-            onChange={onInputChange}
-            />
-        <select
-            className="form-control my-3 w-75"
-            name="genero"
-            value={genero.id}
-            onChange={onInputChange}
-        >
-            <option value="">Seleccione Género</option>
-            {generos.map((gen) => (
-            <option key={gen.id} value={gen.id}>
-                {gen.nombreGenero}
-            </option>
-            ))}
-        </select>
-        <select
-            className="form-control my-3 w-75"
-            name="estadoCivil"
-            value={estadoCivil.id}
-            onChange={onInputChange}
-        >
-            <option value="">Seleccione estado civil</option>
-            {estadosCiviles.map((est) => (
-            <option key={est.id} value={est.id}>
-                {est.nombreEstadoCivil}
-            </option>
-            ))}
-        </select>
-        <select
-            className="form-control my-3 w-75"
-            name="nacionalidad"
-            value={nacionalidad.id}
-            onChange={onInputChange}
-        >
-            <option value="">Seleccione Nacionalidad</option>
-            {nacionalidades.map((nac) => (
-            <option key={nac.id} value={nac.id}>
-                {nac.nombreNacionalidad}
-            </option>
-            ))}
-        </select>
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="dirección"
-            name="direccionResidencia"
-            value={direccionResidencia}
-            onChange={onInputChange}
-            />
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="Teléfono"
-            name="telefono"
-            value={telefono}
-            onChange={onInputChange}
-            />
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="Example@gmail.com"
-            name="email"
-            value={email}
-            onChange={onInputChange}
-            />
-        <select
-            className="form-control my-3 w-75"
-            name="cargo"
-            value={cargo.id}
-            onChange={onInputChange}
-        >
-            <option value="">Seleccione Cargo</option>
-            {cargos.map((cargo) => (
-            <option key={cargo.id} value={cargo.id}>
-                {cargo.nombreCargo}
-            </option>
-            ))}
-        </select>
-        <input 
-            className="form-control my-3 w-75"
-            placeholder="123456789012345"
-            name="numCuentaBancaria"
-            value={numCuentaBancaria}
-            onChange={onInputChange}
-        />
-        <select
-            className="form-control my-3 w-75"
-            name="estado"
-            value={estado}
-            onChange={onInputChange}
-        >
-            <option value="">Seleccione Estado</option>
-            {status.map((status) => (
-            <option key={status.id} value={status.estado}>
-                {status.estado}
-            </option>
-            ))}
-        </select>
-        <input 
-            className="form-control my-3 w-75"
-            name="idUser"
-            value={idUser}
-            onChange={onInputChange}
-        />
-        
-        <input type="hidden"
-            name="id"
-            value={id} />
-            <button
-                className="btn btn-primary"
-                type="submit"
-            >{id>0? 'Editar' : 'crear'}
-            </button>
-            {!handlerCloseForm || <button
-              className="btn btn-primary mx-2"
-              type="button"
-              onClick={onCloseForm}>
-                  Cerrar
-            </button>}
-    </form>
+        <div className="App">
+            <header className="App-header">
+            <Form autoComplete="off" labelCol={{span:"100%"}} wrapperCol={{span: "100%"}} onSubmitCapture={onSubmit}  layout={"vertical"} style={{maxWidth: "100%"}} >
+                <div className="groupInput" >
+                    <Form.Item 
+                    label="Nombres" 
+                    rules={[
+                        {
+                            required:true,
+                            message:errors?.nombres,
+                        },
+                        {whitespace:true},
+                        ]}
+                         hasFeedback 
+                     >
+                        <Input
+                        name="nombres"  
+                        placeholder="Escriba el o los nombres"
+                        onChange={onInputChange} 
+                        value={nombres} 
+                        />
+                        <p className="text-danger">{errors?.nombres}</p>
+                    </Form.Item>
+                    <Form.Item 
+                    label="Apellidos"
+                    rules={[
+                        {
+                            required:true,
+                            message:errors?.apellidos,
+                        },
+                        {whitespace:true},
+                        ]}
+                         hasFeedback 
+                     > 
+                        <Input
+                        name="apellidos"   
+                        placeholder="Escriba los apellidos" 
+                        value={apellidos}
+                        onChange={onInputChange}/>
+                        <p className="text-danger">{errors?.apellidos}</p>
+                    </Form.Item>
+                </div>
+                <div className="groupInput">
+                <Form.Item 
+                
+                label="Número de identidad"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.numIdentidad,
+                    },
+                    {type:Number},
+                    ]}
+                     hasFeedback 
+                 >
+                    <Input
+                    name="numIdentidad" 
+                    placeholder="Escriba el número de identidad" 
+                    value={numIdentidad}
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.numIdentidad}</p>
+                </Form.Item>
+                <Form.Item label="Fecha de Nacimiento">
+                <input 
+                className="form-control my-0 w-1"
+                style={{height:40,}}
+                name="fechaNacimiento"
+                type="date"
+                value={fechaNacimiento}
+                onChange={onInputChange}
+                />
+                <p className="text-danger">{errors?.fechaNacimiento}</p>
+                </Form.Item>
+                
+                </div>
+                <div className="groupInput">
+                <Form.Item
+                label="Género"
+                name="genero"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.genero,
+                    }
+                    ]}
+                     hasFeedback 
+                >
+                    <Select 
+                    value={genero.id}
+                    name="genero"
+                    placeholder="Seleccione género"
+                    onChange={(value) => onInputChange({ target: { name: "genero", value } })}
+                    >
+                        {generos.map((gen) => (
+                        <Select.Option key={gen.id} value={gen.id}>
+                            {gen.nombreGenero}
+                        </Select.Option>
+                    ))}
+                    </Select>        
+                </Form.Item>
+                <Form.Item  
+                name="estadoCivil"
+                label="Estado Civil"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.estadoCivil,
+                    }
+                    ]}
+                     hasFeedback 
+                >
+                    <Select 
+                    name="estadoCivil"
+                    value={estadoCivil.id}
+                    placeholder="Seleccione Estado C."
+                    onChange={(value) => onInputChange({ target: { name: "estadoCivil", value } })}
+                    >
+                        {estadosCiviles.map((est) => (
+                        <Select.Option key={est.id} value={est.id}>
+                            {est.nombreEstadoCivil}
+                        </Select.Option>
+                    ))}
+                    </Select>        
+                </Form.Item>
+                <Form.Item  
+                name="nacionalidad"
+                label="Nacionalidad"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.nacionalidad,
+                    }
+                    ]}
+                     hasFeedback 
+                >
+                    <Select 
+                    name="nacionalidad"
+                    value={nacionalidad.id}
+                    placeholder="Seleccione N."
+                    onChange={(value) => onInputChange({ target: { name: "nacionalidad", value } })}
+                    >
+                        {nacionalidades.map((nac) => (
+                        <Select.Option key={nac.id} value={nac.id}>
+                            {nac.nombreNacionalidad}
+                        </Select.Option>
+                    ))}
+                    </Select>        
+                </Form.Item>
+                </div>
+               <div className="groupInput">
+               <Form.Item  
+               
+               label="Dirección de residencia" 
+               rules={[
+                {
+                    required:true,
+                    message:errors?.direccionResidencia,
+                },
+                {whitespace:true},
+                ]}
+                 hasFeedback 
+               >
+                    <Input
+                    name="direccionResidencia"  
+                    placeholder="Escriba la dirección"
+                    value={direccionResidencia}
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.direccionResidencia}</p>
+                </Form.Item>
+                <Form.Item  
+                
+                label="Número de teléfono o celular" 
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.telefono,
+                    },
+                    {whitespace:true},
+                    ]}
+                     hasFeedback 
+                >
+                    <Input
+                    name="telefono"  
+                    placeholder="Digite el número"
+                    value={telefono}
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.telefono}</p>
+                </Form.Item>              
+               </div>
+                <div className="groupInput">
+                <Form.Item  
+                
+                label="Correo electrónico"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.email,
+                    },
+                    {type:email, message:"Por favor ingrese una dirección de correo electrónico válido"},
+                    ]}
+                     hasFeedback
+                >
+                    <Input
+                    name="email"  
+                    placeholder="Example@gmail.com"
+                    value={email}
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.email}</p>
+                </Form.Item>
+                <Form.Item  
+                name="cargo"
+                label="Cargo"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.cargo,
+                    }
+                    ]}
+                     hasFeedback 
+                >
+                    <Select 
+                    name="cargo"
+                    value={cargo.id}
+                    placeholder="Seleccione el cargo"
+                    onChange={(value) => onInputChange({ target: { name: "cargo", value } })}
+                    >
+                        {cargos.map((cargos) => (
+                        <Select.Option key={cargos.id} value={cargos.id}>
+                            {cargos.nombreCargo}
+                        </Select.Option>
+                    ))}
+                    </Select>        
+                </Form.Item>         
+                </div>
+                
+                <Form.Item  
+                
+                label="Número de cuenta bancaria BCP o CCI"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.numCuentaBancaria,
+                    },
+                    {whitespace:true},
+                    ]}
+                     hasFeedback  
+                >
+                    <Input
+                    name="numCuentaBancaria"   
+                    placeholder="123456789012345"
+                    value={numCuentaBancaria}
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.numCuentaBancaria}</p>
+                </Form.Item>
+                <div className="groupInput">
+                <Form.Item  
+                name="estado" 
+                label="Estado del trabajador"
+                rules={[
+                    {
+                        required:true,
+                        message:errors?.estado,
+                    }
+                    ]}
+                     hasFeedback 
+                >
+                    <Select 
+                    name="estado"
+                    value={estado}
+                    placeholder="Seleccione estado de trabajador"
+                    onChange={(value) => onInputChange({ target: { name: "estado", value } })}
+                    >
+                        {status.map((status) => (
+                        <Select.Option key={status.id} value={status.estado}>
+                            {status.estado}
+                        </Select.Option>
+                    ))}
+                    </Select>        
+                </Form.Item>
+                <Form.Item  
+                
+                label="ID de usuario"
+                >
+                    <Input
+                    name="idUser"
+                    value={idUser}
+                    placeholder="ID usuario"
+                    onChange={onInputChange}
+                    />
+                    <p className="text-danger">{errors?.idUser}</p>
+                </Form.Item>         
+                </div>
+                
+                <Form.Item wrapperCol={{span: 24}}>
+                    <Button block type="primary" htmlType="submit" style={{width:300}}>
+                    {id>0? 'Editar' : 'Registrar'}
+                    </Button>
+                </Form.Item>
+            </Form>
+            </header>
+        </div>
+    
   )
 }

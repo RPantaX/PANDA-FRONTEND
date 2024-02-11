@@ -1,0 +1,11 @@
+.groupInput{
+    display: flex; 
+    gap: 30px;
+    margin:20
+}
+@media screen and (max-width: 780px) {
+    .groupInput {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

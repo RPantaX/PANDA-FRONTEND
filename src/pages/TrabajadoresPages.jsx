@@ -1,44 +1,24 @@
-
-import { useContext, useEffect } from "react";
 import { TrabajadorList } from "../components/TrabajadorList";
-import { TrabajadorModalForm } from "../components/TrabajadorModalForm";
-import { UserContext } from "../context/UserContext";
+import { Button } from "antd";
+import { NavLink } from "react-router-dom";
 
 
 export const TrabajadoresPages = () => {
-
-      const {
-        trabajadores,
-        visibleForm,
-        handlerOpenForm,
-        getTrabajadores,
-      } = useContext(UserContext);
-
-      useEffect(() => {
-        getTrabajadores();
-      }, []);
     return (
     <>
-      {!visibleForm || 
-        <TrabajadorModalForm/>
-      }
       <div className="container my-4">
-          <h2>UsersApp</h2>
+          <h2 style={{ textAlign:"center"}}>Registro de Trabajadores</h2>
           <div className="row">
 
               <div className="col">
                 {
-                visibleForm || <button
-                    className="btn btn-primary my-2"
-                    onClick={handlerOpenForm}>
-                    Nuevo Usuario
-                </button>
+                  <NavLink to="/trabajadores/register"><Button style={{ marginBottom:10}}>
+                  Crear Trabajador</Button>
+                  </NavLink>
                 }
                 
                 {
-                    trabajadores.totalElementos === 0
-                    ? <div className="alert alert-warning">No hay usuarios en el sistema!</div>
-                    :<TrabajadorList />
+                    <TrabajadorList />
                 }
                   
               </div>
