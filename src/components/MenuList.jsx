@@ -7,7 +7,11 @@ import {HomeOutlined,
     FilePdfOutlined,
     FilePptOutlined } from '@ant-design/icons'
 import { Link } from "react-router-dom"
+import { useContext } from "react";
+import { AuthContext } from "../auth/context/AuthContext";
+
 export const MenuList = () => {
+    const{login} = useContext(AuthContext);
   return (
     
         <Menu theme="dark" mode="inline" className="menu-bar">
@@ -23,11 +27,11 @@ export const MenuList = () => {
 
             <Menu.SubMenu key="plantel" icon={<AppstoreOutlined />}
             title="Plantel">
-                <Menu.Item className="sub-menu" key={"choferes"}>Choferes
+                <Menu.Item className="sub-menu" key={"conductores"}><Link to="/conductores">Conductores</Link>
                 </Menu.Item>
-                <Menu.Item className="sub-menu" key={"camiones"}>camiones
+                <Menu.Item className="sub-menu" key={"camiones"}><Link to="/camiones">Camiones</Link>
                 </Menu.Item>
-                <Menu.Item className="sub-menu" key={"carretas"} >carretas
+                <Menu.Item className="sub-menu" key={"carretas"} ><Link to="/carretas">Carretas</Link>
                 </Menu.Item>
             </Menu.SubMenu>
             
@@ -42,7 +46,14 @@ export const MenuList = () => {
                 <Menu.Item key={"guiasRemitente"} icon={<FilePptOutlined />}>
                 Guias de transportista
                 </Menu.Item>
+            
             </Menu.SubMenu>
+            {!login.isAdmin ||
+            <Menu.Item key={"usuarios"} icon={<TeamOutlined />}>
+                <Link to="/usuarios">Gestion Usuarios</Link>
+                
+            </Menu.Item>
+            }   
         </Menu>
     
   )

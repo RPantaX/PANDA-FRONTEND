@@ -1,9 +1,12 @@
 import { TrabajadorList } from "../components/TrabajadorList";
 import { Button } from "antd";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../auth/context/AuthContext";
 
 
 export const TrabajadoresPages = () => {
+  const{login} = useContext(AuthContext);
     return (
     <>
       <div className="container my-4">
@@ -12,7 +15,7 @@ export const TrabajadoresPages = () => {
 
               <div className="col">
                 {
-                  <NavLink to="/trabajadores/register"><Button style={{ marginBottom:10}}>
+                  !login.isAdmin || <NavLink to="/trabajadores/register"><Button style={{ marginBottom:10}}>
                   Crear Trabajador</Button>
                   </NavLink>
                 }

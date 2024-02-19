@@ -1,27 +1,27 @@
 import { useContext, useReducer, useState } from "react";
-import Swal from "sweetalert2";
-import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { findAll, remove, save, update } from "../../services/trabajadorService";
+import { usersReducer } from "../../reducers/usersReducer";
+import { UserinitialObject, initialUserForm, initialErrorsUser } from "../../utilities/initialObjects";
 import { useNavigate } from "react-router-dom";
-import { initialErrorsTrabajador, initialTrabajadorForm, globalinitialObjects } from "../../utilities/initialObjects";
+import { findAll, remove, save, update } from "../../services/userService";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../auth/context/AuthContext";
 
-export const useTrabajadores = () => {
-    const [trabajadores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
-    const [visibleForm, setVisibleForm] = useState(false);
-    const [errorsTrabajador, setErrors] = useState(initialErrorsTrabajador);
+
+export const useUser = () => {
+    const [users, dispatch] = useReducer(usersReducer, UserinitialObject);
+    const [userSelected, setUserSelected] = useState(initialUserForm);
+    const [visibleFormUser, setVisibleForm] = useState(false);
+    const [errorsUser, setErrors] = useState(initialErrorsUser);
     const{login, handlerLogout} = useContext(AuthContext);
     const navigate=useNavigate();
 
-    const getTrabajadores = async (page) =>{
+    const getUsers = async () =>{
       try {
-        const result = await findAll(page);
+        const result = await findAll();
         dispatch({
-        type: 'loadingTrabajadores',
+        type: 'loadingUsers',
         payload: result.data,
-        });
-        
+      });
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
@@ -30,40 +30,40 @@ export const useTrabajadores = () => {
       
     }
 
-    const handlerAddTrabajador=async(trabajador)=>{
+    const handlerAddUser=async(user)=>{
       if(!login.isAdmin) return;
       let response;
       try {
-        if(trabajador.id===0){
-          response= await save(trabajador);
+        if(user.id===0){
+          response= await save(user);
         } else{
-          response= await update(trabajador);
+          response= await update(user);
         }
         dispatch({
-            type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
+            type: (user.id === 0) ? 'addUser' : 'updateUser',
             payload: response.data,
           });
           Swal.fire({
-              title: "Trabajador Creado",
-              text: "El trabajador ha sido creado con éxito!",
+              title: "Usuario Creado",
+              text: "El Usuario ha sido creado con éxito!",
               icon: "success"
             });
-            handlerCloseForm();
-            navigate('/trabajadores')
+            handlerCloseFormUser();
+            navigate('/usuarios')
       } catch (error) {
         if(error.response && error.response.status==400){
           setErrors(error.response.data);
         }else if (error.response && error.response.status==500 && 
           error.response.data?.mensaje?.includes('ya existe')){
-            if(error.response.data?.mensaje?.includes('identidad')){
-              setErrors({numIdentidad: error.response.data.mensaje})
-            }
-            if(error.response.data?.mensaje?.includes('bancaria')){
-              setErrors({numCuentaBancaria: error.response.data.mensaje})
-            }
             if(error.response.data?.mensaje?.includes('email')){
               setErrors({email: error.response.data.mensaje})
             }
+            if(error.response.data?.mensaje?.includes('identidad')){
+              setErrors({numIdentidad: error.response.data.mensaje})
+            }
+            if(error.response.data?.mensaje?.includes('usuario')){
+                setErrors({username: error.response.data.mensaje})
+              }
         } else if(error.response?.status == 401){
           handlerLogout();
         }
@@ -73,7 +73,7 @@ export const useTrabajadores = () => {
       }
       }
 
-      const handlerRemoveTrabajador=(id)=>{
+      const handlerRemoveUser=(id)=>{
         if(!login.isAdmin) return;
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -84,7 +84,7 @@ export const useTrabajadores = () => {
           });
           swalWithBootstrapButtons.fire({
             title: "Está seguro que desea eliminar?",
-            text: "Cuidado, el trabajador será eliminado!",
+            text: "Cuidado, el registro será eliminado!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "sí, eliminar!",
@@ -93,17 +93,16 @@ export const useTrabajadores = () => {
           }).then(async (result) => {
             if (result.isConfirmed) {
               try {
-                await remove(id);
+                remove(id);
                 dispatch({
-                    type:'removeTrabajador',
+                    type:'removeUser',
                     payload:id
                   });
               swalWithBootstrapButtons.fire({
-                title: "Trabajador eliminado!",
-                text: "El trabajador ha sido eliminado con éxito.",
+                title: "Registro eliminado!",
+                text: "El registro ha sido eliminado con éxito.",
                 icon: "success"
               });
-                
               } catch (error) {
                 if(error.response?.status == 401){
                   handlerLogout();
@@ -114,35 +113,35 @@ export const useTrabajadores = () => {
             ) {
               swalWithBootstrapButtons.fire({
                 title: "Cancelado",
-                text: "El trabajador no se eliminó",
+                text: "El registro no se eliminó",
                 icon: "error"
               });
             }
           });
       }
-      const handlerTrabajadorSelectedForm=(trabajador)=>{
+      const handlerUserSelectedForm=(usuario)=>{
         setVisibleForm(true);
-        setTrabajadorSelected({...trabajador});      
+        setUserSelected({...usuario});      
       }
-      const handlerOpenForm=()=>{
+      const handlerOpenFormUser=()=>{
         setVisibleForm(true);
       }
-      const handlerCloseForm=()=>{
+      const handlerCloseFormUser=()=>{
         setVisibleForm(false);
-        setTrabajadorSelected(initialTrabajadorForm);
+        setUserSelected(initialUserForm);
         setErrors({});
       }
       return {
-        trabajadores,
-        trabajadorSelected,
-        initialTrabajadorForm,
-        visibleForm,
-        errorsTrabajador,
-        handlerAddTrabajador,
-        handlerRemoveTrabajador,
-        handlerTrabajadorSelectedForm,
-        handlerOpenForm,
-        handlerCloseForm,
-        getTrabajadores,
+        users,
+        userSelected,
+        initialUserForm,
+        visibleFormUser,
+        errorsUser,
+        handlerAddUser,
+        handlerRemoveUser,
+        handlerUserSelectedForm,
+        handlerOpenFormUser,
+        handlerCloseFormUser,
+        getUsers,
       }
 }

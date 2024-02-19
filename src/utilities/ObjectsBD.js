@@ -122,6 +122,68 @@ export const estadoBD=[
         estado:'inactivo'
     }
 ]
+export const tipoLicenciaBD=[
+    {
+        id:1,
+        tipoLicencia:'A3',
+    },
+    {
+        id:2,
+        tipoLicencia:'A4',
+    },
+    {
+        id:3,
+        tipoLicencia:'A5',
+    },
+    {
+        id:4,
+        tipoLicencia:'B1',
+    },
+    {
+        id:5,
+        tipoLicencia:'B2',
+    },
+    {
+        id:6,
+        tipoLicencia:'B3',
+    },
+    {
+        id:7,
+        tipoLicencia:'B4',
+    },
+    {
+        id:8,
+        tipoLicencia:'C1',
+    },
+    {
+        id:9,
+        tipoLicencia:'C2',
+    },
+    {
+        id:10,
+        tipoLicencia:'C3',
+    },
+    {
+        id:11,
+        tipoLicencia:'C4',
+    },
+    {
+        id:12,
+        tipoLicencia:'D1',
+    },
+    {
+        id:13,
+        tipoLicencia:'D2',
+    },
+    {
+        id:14,
+        tipoLicencia:'D3',
+    },
+    {
+        id:15,
+        tipoLicencia:'D4',
+    },
+]
 // Función para formatear la fecha a YYYY-MM-DD
 export const formatDate = (dateString) => {
     const date = new Date(dateString);

@@ -1,9 +1,6 @@
-body{
-  padding: 0px;
-  margin: 0px;
-}
 .login {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -12,30 +9,31 @@ body{
 
 .panda {
   text-align: center;
-  margin-bottom: 1px;
-  margin-right: 5rem;
+  margin-bottom: 1rem;
 }
-.panda h1{
-  margin-top: 0px;
-  padding-top: 0px;
-  border-top: 0px;
+
+.panda h1 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
 .panda img {
-  max-width: 400px; /* Ajusta el tamaño de la imagen según sea necesario */
+  max-width: 100%;
+  max-height: 200px; /* Establecemos un alto máximo para la imagen */
 }
 
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 5rem;
+  margin-top: 1rem;
 }
 
 legend {
-  margin: 0 0 50px;
+  margin: 0 0 1.5rem;
   padding: 0;
-  font-size: 30px;/*tamaño de la letra*/
+  font-size: 1.5rem; /* Tamaño de la letra */
   color: #000000;
   font-family: Georgia, 'Times New Roman', Times, serif;
   text-align: center;
@@ -43,42 +41,71 @@ legend {
 
 .email,
 .password {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 input {
-  width: 260px;
-  padding: 5px;
+  width: 80%;
+  padding: 0.5rem;
   color: #000000;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #000000;
-  margin-top: 20px;
-  margin-bottom: 0px;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .invitado {
   text-align: right;
-  align-items: end;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
   color: rgb(8, 209, 15);
 }
 
 button {
   background-color: #75859c; /* Color más oscuro para el botón */
   color: white;
-  padding: 12px 30px;
+  padding: 1rem 2rem;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 1rem;
+  margin-top: 1px; /* Añadimos margen arriba para separar del input */
 }
 
 button:hover {
   background-color: #404040; /* Cambia el color al pasar el ratón sobre el botón */
 }
-.icon{
+
+.icon {
   width: 20px;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 825px) {
+  .login {
+    flex-direction: row;
+  }
+  input {
+    width: 260px;
+    padding: 5px;
+    color: #000000;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+  .panda {
+    margin-right: 5rem;
+    margin-bottom: 0;
+  }
+  .panda img {
+    max-width: 100%;
+    max-height: 400px; /* Establecemos un alto máximo para la imagen */
+  }
+  form {
+    margin-left: 1rem; /* Reducimos el margen para ajustarlo */
+  }
+
 }

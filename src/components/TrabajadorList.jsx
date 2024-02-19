@@ -3,6 +3,7 @@ import { UserContext } from "../context/UserContext";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../auth/context/AuthContext";
 
 export const TrabajadorList = () => {
   
@@ -11,6 +12,7 @@ export const TrabajadorList = () => {
   const {contenido}=trabajadores|| { contenido: [] };
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const{login} = useContext(AuthContext);
   useEffect(() => {
     setLoading(true)
     getTrabajadores(0);
@@ -30,7 +32,6 @@ export const TrabajadorList = () => {
     width: 200,
     dataIndex: 'nombres',
     key: 'nombres',
-    fixed: 'left',
   },
   {
     title: 'apellidos',
@@ -123,6 +124,9 @@ export const TrabajadorList = () => {
     dataIndex: 'estado',
     key: 'estado',
     width: 150,
+    render: (estado) => (
+      estado ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>
+    ),
   },
   {
     title: 'Id Usuario',
@@ -130,21 +134,23 @@ export const TrabajadorList = () => {
     key: 'idUser',
     width: 150,
   },
-  {
+];
+if (login.isAdmin) {
+  columns.push({
     title: 'Actions',
     key: 'operation',
     fixed: 'right',
     width: 100,
-    render: (record)=>{
-      return <>
-      <NavLink to={`/trabajadores/edit/${record.id}`}>
-      <EditOutlined />
-      </NavLink>
-      <DeleteOutlined onClick={()=>handlerRemoveTrabajador(record.id)} style={{color:"red", marginLeft: 12}} />
+    render: (record) => (
+      <>
+        <NavLink to={`/trabajadores/edit/${record.id}`}>
+          <EditOutlined />
+        </NavLink>
+        <DeleteOutlined onClick={() => handlerRemoveTrabajador(record.id)} style={{ color: "red", marginLeft: 12 }} />
       </>
-    }
-  },
-];
+    ),
+  });
+}
     return (
       <Table 
       loading={loading} 

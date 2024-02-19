@@ -5,7 +5,7 @@ import { Button, Form, Input, Select } from "antd";
 import './formStyles.css';
 
 export const TrabajadorForm = ({trabajadorSelected}) => {
-    const {handlerAddTrabajador, initialTrabajadorForm, errors}= useContext(UserContext);
+    const {handlerAddTrabajador, initialTrabajadorForm, errorsTrabajador}= useContext(UserContext);
     const [trabajadorForm, setTrabajadorForm] = useState(initialTrabajadorForm)
     const {id, nombres, apellidos, numIdentidad, fechaNacimiento,genero,estadoCivil, nacionalidad, direccionResidencia,telefono, email, cargo, numCuentaBancaria, estado, idUser}=trabajadorForm;
     const [nacionalidades, setNacionalidades] = useState([]);
@@ -45,7 +45,6 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
     }
     const onSubmit=(event)=>{
         event.preventDefault() //previene que se refresque la página
-        
         handlerAddTrabajador(trabajadorForm)
     }
 
@@ -59,7 +58,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     rules={[
                         {
                             required:true,
-                            message:errors?.nombres,
+                            message:errorsTrabajador?.nombres,
                         },
                         {whitespace:true},
                         ]}
@@ -71,14 +70,14 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                         onChange={onInputChange} 
                         value={nombres} 
                         />
-                        <p className="text-danger">{errors?.nombres}</p>
+                        <p className="text-danger">{errorsTrabajador?.nombres}</p>
                     </Form.Item>
                     <Form.Item 
                     label="Apellidos"
                     rules={[
                         {
                             required:true,
-                            message:errors?.apellidos,
+                            message:errorsTrabajador?.apellidos,
                         },
                         {whitespace:true},
                         ]}
@@ -89,7 +88,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                         placeholder="Escriba los apellidos" 
                         value={apellidos}
                         onChange={onInputChange}/>
-                        <p className="text-danger">{errors?.apellidos}</p>
+                        <p className="text-danger">{errorsTrabajador?.apellidos}</p>
                     </Form.Item>
                 </div>
                 <div className="groupInput">
@@ -99,7 +98,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.numIdentidad,
+                        message:errorsTrabajador?.numIdentidad,
                     },
                     {type:Number},
                     ]}
@@ -111,7 +110,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     value={numIdentidad}
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.numIdentidad}</p>
+                    <p className="text-danger">{errorsTrabajador?.numIdentidad}</p>
                 </Form.Item>
                 <Form.Item label="Fecha de Nacimiento">
                 <input 
@@ -122,7 +121,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 value={fechaNacimiento}
                 onChange={onInputChange}
                 />
-                <p className="text-danger">{errors?.fechaNacimiento}</p>
+                <p className="text-danger">{errorsTrabajador?.fechaNacimiento}</p>
                 </Form.Item>
                 
                 </div>
@@ -133,7 +132,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.genero,
+                        message:errorsTrabajador?.genero,
                     }
                     ]}
                      hasFeedback 
@@ -157,7 +156,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.estadoCivil,
+                        message:errorsTrabajador?.estadoCivil,
                     }
                     ]}
                      hasFeedback 
@@ -181,7 +180,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.nacionalidad,
+                        message:errorsTrabajador?.nacionalidad,
                     }
                     ]}
                      hasFeedback 
@@ -207,7 +206,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                rules={[
                 {
                     required:true,
-                    message:errors?.direccionResidencia,
+                    message:errorsTrabajador?.direccionResidencia,
                 },
                 {whitespace:true},
                 ]}
@@ -219,7 +218,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     value={direccionResidencia}
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.direccionResidencia}</p>
+                    <p className="text-danger">{errorsTrabajador?.direccionResidencia}</p>
                 </Form.Item>
                 <Form.Item  
                 
@@ -227,7 +226,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.telefono,
+                        message:errorsTrabajador?.telefono,
                     },
                     {whitespace:true},
                     ]}
@@ -239,7 +238,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     value={telefono}
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.telefono}</p>
+                    <p className="text-danger">{errorsTrabajador?.telefono}</p>
                 </Form.Item>              
                </div>
                 <div className="groupInput">
@@ -249,7 +248,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.email,
+                        message:errorsTrabajador?.email,
                     },
                     {type:email, message:"Por favor ingrese una dirección de correo electrónico válido"},
                     ]}
@@ -261,7 +260,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     value={email}
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.email}</p>
+                    <p className="text-danger">{errorsTrabajador?.email}</p>
                 </Form.Item>
                 <Form.Item  
                 name="cargo"
@@ -269,7 +268,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.cargo,
+                        message:errorsTrabajador?.cargo,
                     }
                     ]}
                      hasFeedback 
@@ -295,7 +294,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.numCuentaBancaria,
+                        message:errorsTrabajador?.numCuentaBancaria,
                     },
                     {whitespace:true},
                     ]}
@@ -307,7 +306,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     value={numCuentaBancaria}
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.numCuentaBancaria}</p>
+                    <p className="text-danger">{errorsTrabajador?.numCuentaBancaria}</p>
                 </Form.Item>
                 <div className="groupInput">
                 <Form.Item  
@@ -316,7 +315,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 rules={[
                     {
                         required:true,
-                        message:errors?.estado,
+                        message:errorsTrabajador?.estado,
                     }
                     ]}
                      hasFeedback 
@@ -344,7 +343,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                     placeholder="ID usuario"
                     onChange={onInputChange}
                     />
-                    <p className="text-danger">{errors?.idUser}</p>
+                    <p className="text-danger">{errorsTrabajador?.idUser}</p>
                 </Form.Item>         
                 </div>
                 

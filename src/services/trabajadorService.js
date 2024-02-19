@@ -1,13 +1,15 @@
-import axios from "axios"
-const BASE_URL='http://localhost:8080/api/v1/';
+import AllApis from "../apis/AllApis";
+
+const BASE_URL='';
+
 export const findAll = async(page) => {
     try{
-        const response= await axios.get(`${BASE_URL}trabajadores?pageNo=${page}&pageSize=10`);
+        const response= await AllApis.get(`${BASE_URL}trabajadores?pageNo=${page}&pageSize=10`);
         return response;
     }catch(error){
         console.error(error);
+        throw error;
     }
-    return null;
 }
 export const save= async(trabajador)=>{
     
@@ -38,8 +40,9 @@ export const save= async(trabajador)=>{
             estado: trabajador.estado,
             idUser:trabajador.idUser == 0 ? null : trabajador.idUser
     };
-        return await axios.post(`${BASE_URL}trabajador`, initialTrabajadorForm);
+        return await AllApis.post(`${BASE_URL}trabajador`, initialTrabajadorForm);
     }catch(error){
+        console.error(error);
         throw error;
     }
 }
@@ -72,16 +75,17 @@ export const update=async(trabajador)=>{
             estado: trabajador.estado,
             idUser:trabajador.idUser == 0 ? null : trabajador.idUser
     };
-        return await axios.put(`${BASE_URL}trabajador/${trabajador.id}`, initialTrabajadorForm);
+        return await AllApis.put(`${BASE_URL}trabajador/${trabajador.id}`, initialTrabajadorForm);
     }catch(error){
         console.error(error);
+        throw error;
     }
-    return undefined;
 }
 export const remove = async(id)=>{
     try{
-        await axios.delete(`${BASE_URL}trabajador/${id}`);
+        await AllApis.delete(`${BASE_URL}trabajador/${id}`);
     }catch(error){
+        console.error(error);
         throw error;
     }
 }

@@ -1,27 +1,26 @@
 import { useContext, useReducer, useState } from "react";
-import Swal from "sweetalert2";
 import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { findAll, remove, save, update } from "../../services/trabajadorService";
+import { globalinitialObjects, initialCarretaForm, initialErrorsCarreta } from "../../utilities/initialObjects";
 import { useNavigate } from "react-router-dom";
-import { initialErrorsTrabajador, initialTrabajadorForm, globalinitialObjects } from "../../utilities/initialObjects";
+import { findAll, remove, save, update } from "../../services/carretaService";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../auth/context/AuthContext";
 
-export const useTrabajadores = () => {
-    const [trabajadores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
-    const [visibleForm, setVisibleForm] = useState(false);
-    const [errorsTrabajador, setErrors] = useState(initialErrorsTrabajador);
+export const useCarretas = () => {
+    const [carretas, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
+    const [carretaSelected, setCarretaSelected] = useState(initialCarretaForm);
+    const [visibleFormCarreta, setVisibleForm] = useState(false);
+    const [errorsCarreta, setErrors] = useState(initialErrorsCarreta);
     const{login, handlerLogout} = useContext(AuthContext);
     const navigate=useNavigate();
 
-    const getTrabajadores = async (page) =>{
+    const getCarretas = async (page) =>{
       try {
         const result = await findAll(page);
         dispatch({
         type: 'loadingTrabajadores',
         payload: result.data,
-        });
-        
+      });
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
@@ -30,50 +29,43 @@ export const useTrabajadores = () => {
       
     }
 
-    const handlerAddTrabajador=async(trabajador)=>{
+    const handlerAddCarreta=async(conductor)=>{
       if(!login.isAdmin) return;
       let response;
       try {
-        if(trabajador.id===0){
-          response= await save(trabajador);
+        if(conductor.id===0){
+          response= await save(conductor);
         } else{
-          response= await update(trabajador);
+          response= await update(conductor);
         }
         dispatch({
-            type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
+            type: (conductor.id === 0) ? 'addTrabajador' : 'updateTrabajador',
             payload: response.data,
           });
           Swal.fire({
-              title: "Trabajador Creado",
-              text: "El trabajador ha sido creado con éxito!",
+              title: "Registro Creado",
+              text: "El Registro ha sido creado con éxito!",
               icon: "success"
             });
-            handlerCloseForm();
-            navigate('/trabajadores')
+            handlerCloseFormCarreta();
+            navigate('/carretas')
       } catch (error) {
         if(error.response && error.response.status==400){
           setErrors(error.response.data);
         }else if (error.response && error.response.status==500 && 
-          error.response.data?.mensaje?.includes('ya existe')){
-            if(error.response.data?.mensaje?.includes('identidad')){
-              setErrors({numIdentidad: error.response.data.mensaje})
+          error.response.data?.mensaje?.includes('registrada')){
+            if(error.response.data?.mensaje?.includes('placa')){
+              setErrors({placa: error.response.data.mensaje});
             }
-            if(error.response.data?.mensaje?.includes('bancaria')){
-              setErrors({numCuentaBancaria: error.response.data.mensaje})
-            }
-            if(error.response.data?.mensaje?.includes('email')){
-              setErrors({email: error.response.data.mensaje})
-            }
-        } else if(error.response?.status == 401){
+        }else if(error.response?.status == 401){
           handlerLogout();
-        }
-        else{
+        }else{
           throw error;
         }
       }
       }
 
-      const handlerRemoveTrabajador=(id)=>{
+      const handlerRemoveCarreta=(id)=>{
         if(!login.isAdmin) return;
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -84,23 +76,23 @@ export const useTrabajadores = () => {
           });
           swalWithBootstrapButtons.fire({
             title: "Está seguro que desea eliminar?",
-            text: "Cuidado, el trabajador será eliminado!",
+            text: "Cuidado, el registro será eliminado!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "sí, eliminar!",
             cancelButtonText: "No, cancelar!",
             reverseButtons: true
-          }).then(async (result) => {
+          }).then(async(result) => {
             if (result.isConfirmed) {
               try {
-                await remove(id);
+                remove(id);
                 dispatch({
                     type:'removeTrabajador',
                     payload:id
                   });
               swalWithBootstrapButtons.fire({
-                title: "Trabajador eliminado!",
-                text: "El trabajador ha sido eliminado con éxito.",
+                title: "Registro eliminado!",
+                text: "El registro ha sido eliminado con éxito.",
                 icon: "success"
               });
                 
@@ -109,40 +101,41 @@ export const useTrabajadores = () => {
                   handlerLogout();
                 }
               }
+              
             } else if (
               result.dismiss === Swal.DismissReason.cancel
             ) {
               swalWithBootstrapButtons.fire({
                 title: "Cancelado",
-                text: "El trabajador no se eliminó",
+                text: "El registro no se eliminó",
                 icon: "error"
               });
             }
           });
       }
-      const handlerTrabajadorSelectedForm=(trabajador)=>{
+      const handlerCarretaSelectedForm=(carreta)=>{
         setVisibleForm(true);
-        setTrabajadorSelected({...trabajador});      
+        setCarretaSelected({...carreta});      
       }
-      const handlerOpenForm=()=>{
+      const handlerOpenFormCarreta=()=>{
         setVisibleForm(true);
       }
-      const handlerCloseForm=()=>{
+      const handlerCloseFormCarreta=()=>{
         setVisibleForm(false);
-        setTrabajadorSelected(initialTrabajadorForm);
+        setCarretaSelected(initialCarretaForm);
         setErrors({});
       }
       return {
-        trabajadores,
-        trabajadorSelected,
-        initialTrabajadorForm,
-        visibleForm,
-        errorsTrabajador,
-        handlerAddTrabajador,
-        handlerRemoveTrabajador,
-        handlerTrabajadorSelectedForm,
-        handlerOpenForm,
-        handlerCloseForm,
-        getTrabajadores,
+        carretas,
+        carretaSelected,
+        initialCarretaForm,
+        visibleFormCarreta,
+        errorsCarreta,
+        handlerAddCarreta,
+        handlerRemoveCarreta,
+        handlerCarretaSelectedForm,
+        handlerOpenFormCarreta,
+        handlerCloseFormCarreta,
+        getCarretas,
       }
 }

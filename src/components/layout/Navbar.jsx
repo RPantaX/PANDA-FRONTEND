@@ -18,20 +18,18 @@ const Navbar = () => {
         </Menu>
       );
   return (
-    <div className="navbar">
-      <Menu theme="dark" mode="inline" className="menu-navbar">
-
-      </Menu>
+    <>
       <div className="user-info">
-            <span>
-            <UserOutlined />
-            {login.email?.email}
-          </span>
+        <span>
+        <UserOutlined />
+        {login.user?.username}
+        </span>
         <Dropdown  className="logout-icon" overlay={menu} placement="bottomRight" arrow>
           <span><LogoutOutlined /></span>
         </Dropdown>
-      </div>
     </div>
+    </>
+    
   );
 };
 

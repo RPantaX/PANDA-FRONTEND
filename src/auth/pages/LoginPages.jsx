@@ -7,14 +7,14 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const initialLoginForm={
-    email: '',
+    username: '',
     password: ''
 }
 export const LoginPages = () => {
     //login
     const {handlerLogin}= useContext(AuthContext)
     const [loginForm, setLoginForm] = useState(initialLoginForm);
-    const {email, password}= loginForm;
+    const {username, password}= loginForm;
 
     const onInputChange = ({target}) =>{
         const {name, value}= target;
@@ -25,10 +25,10 @@ export const LoginPages = () => {
     }
     const onSubmit = (event) =>{
         event.preventDefault();
-        if(!email || !password){
-            Swal.fire('Error de validación', 'Email y password requeridos', 'error')
+        if(!username || !password){
+            Swal.fire('Error de validación', 'username y password requeridos', 'error')
         }
-        handlerLogin({email, password});
+        handlerLogin({username, password});
         setLoginForm(initialLoginForm);
     }
   return (
@@ -44,9 +44,9 @@ export const LoginPages = () => {
                 <img className="icon" src={usuariolIcon} alt="usuario-icon" />
                 <input 
                     type="text" 
-                    name="email"
-                    placeholder="email"
-                    value={email}
+                    name="username"
+                    placeholder="username"
+                    value={username}
                     onChange={onInputChange} />
             </div>
             
@@ -60,7 +60,7 @@ export const LoginPages = () => {
                     onChange={onInputChange} />
             </div>
             <div className='invitado'><p> <strong>Ingresar como invitado</strong></p></div>
-            <div>
+            <div >
                 <button type='submit'>Iniciar Sesión</button>
             </div>
         </form>

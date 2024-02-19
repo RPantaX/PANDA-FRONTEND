@@ -1,26 +1,23 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 2px;
-    background-color: #001529; /* Color de fondo para la barra de navegación */
-    color: #fff; /* Color de texto para la barra de navegación */
-    
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .user-info span {
-    margin-right: 10px;
-  }
-  
-  .user-info button {
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-  }
+.user-info {
+  color: #fff;
+  background-color: #001529;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alinea el contenido hacia la derecha */
+  padding: 9px;
+}
+
+.user-info span {
+  margin-right: 10px;
+}
+
+.user-info button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.logout-icon {
+  margin-left: 10px; /* Espacio entre el icono de usuario y el menú desplegable */
+}

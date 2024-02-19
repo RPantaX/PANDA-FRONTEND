@@ -1,27 +1,26 @@
 import { useContext, useReducer, useState } from "react";
-import Swal from "sweetalert2";
 import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { findAll, remove, save, update } from "../../services/trabajadorService";
+import { globalinitialObjects, initialConductorForm, initialErrorsConductor } from "../../utilities/initialObjects";
 import { useNavigate } from "react-router-dom";
-import { initialErrorsTrabajador, initialTrabajadorForm, globalinitialObjects } from "../../utilities/initialObjects";
+import { findAll, remove, save, update } from "../../services/conductorService";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../auth/context/AuthContext";
 
-export const useTrabajadores = () => {
-    const [trabajadores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
-    const [visibleForm, setVisibleForm] = useState(false);
-    const [errorsTrabajador, setErrors] = useState(initialErrorsTrabajador);
+export const useConductores = () => {
+    const [conductores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
+    const [conductorSelected, setConductorSelected] = useState(initialConductorForm);
+    const [visibleFormConductor, setVisibleForm] = useState(false);
+    const [errorsConductor, setErrors] = useState(initialErrorsConductor);
     const{login, handlerLogout} = useContext(AuthContext);
     const navigate=useNavigate();
 
-    const getTrabajadores = async (page) =>{
+    const getConductores = async (page) =>{
       try {
         const result = await findAll(page);
         dispatch({
         type: 'loadingTrabajadores',
         payload: result.data,
-        });
-        
+      });
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
@@ -30,41 +29,38 @@ export const useTrabajadores = () => {
       
     }
 
-    const handlerAddTrabajador=async(trabajador)=>{
+    const handlerAddConductor=async(conductor)=>{
       if(!login.isAdmin) return;
       let response;
       try {
-        if(trabajador.id===0){
-          response= await save(trabajador);
+        if(conductor.id===0){
+          response= await save(conductor);
         } else{
-          response= await update(trabajador);
+          response= await update(conductor);
         }
         dispatch({
-            type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
+            type: (conductor.id === 0) ? 'addTrabajador' : 'updateTrabajador',
             payload: response.data,
           });
           Swal.fire({
-              title: "Trabajador Creado",
-              text: "El trabajador ha sido creado con éxito!",
+              title: "Conductor Creado",
+              text: "El Conductor ha sido creado con éxito!",
               icon: "success"
             });
-            handlerCloseForm();
-            navigate('/trabajadores')
+            handlerCloseFormConductor();
+            navigate('/conductores')
       } catch (error) {
         if(error.response && error.response.status==400){
           setErrors(error.response.data);
         }else if (error.response && error.response.status==500 && 
-          error.response.data?.mensaje?.includes('ya existe')){
-            if(error.response.data?.mensaje?.includes('identidad')){
-              setErrors({numIdentidad: error.response.data.mensaje})
+          (error.response.data?.mensaje?.includes('asignado') || error.response.data?.mensaje?.includes('existe'))){
+            if(error.response.data?.mensaje?.includes('trabajador')){
+              setErrors({trabajador: error.response.data.mensaje})
             }
-            if(error.response.data?.mensaje?.includes('bancaria')){
-              setErrors({numCuentaBancaria: error.response.data.mensaje})
+            if(error.response.data?.mensaje?.includes('camion')){
+              setErrors({camion: error.response.data.mensaje})
             }
-            if(error.response.data?.mensaje?.includes('email')){
-              setErrors({email: error.response.data.mensaje})
-            }
-        } else if(error.response?.status == 401){
+        }else if(error.response?.status == 401){
           handlerLogout();
         }
         else{
@@ -73,7 +69,7 @@ export const useTrabajadores = () => {
       }
       }
 
-      const handlerRemoveTrabajador=(id)=>{
+      const handlerRemoveConductor=(id)=>{
         if(!login.isAdmin) return;
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -90,7 +86,7 @@ export const useTrabajadores = () => {
             confirmButtonText: "sí, eliminar!",
             cancelButtonText: "No, cancelar!",
             reverseButtons: true
-          }).then(async (result) => {
+          }).then(async(result) => {
             if (result.isConfirmed) {
               try {
                 await remove(id);
@@ -99,8 +95,8 @@ export const useTrabajadores = () => {
                     payload:id
                   });
               swalWithBootstrapButtons.fire({
-                title: "Trabajador eliminado!",
-                text: "El trabajador ha sido eliminado con éxito.",
+                title: "Conductor eliminado!",
+                text: "El conductor ha sido eliminado con éxito.",
                 icon: "success"
               });
                 
@@ -109,40 +105,41 @@ export const useTrabajadores = () => {
                   handlerLogout();
                 }
               }
+              
             } else if (
               result.dismiss === Swal.DismissReason.cancel
             ) {
               swalWithBootstrapButtons.fire({
                 title: "Cancelado",
-                text: "El trabajador no se eliminó",
+                text: "El conductor no se eliminó",
                 icon: "error"
               });
             }
           });
       }
-      const handlerTrabajadorSelectedForm=(trabajador)=>{
+      const handlerConductorSelectedForm=(conductor)=>{
         setVisibleForm(true);
-        setTrabajadorSelected({...trabajador});      
+        setConductorSelected({...conductor});      
       }
-      const handlerOpenForm=()=>{
+      const handlerOpenFormConductor=()=>{
         setVisibleForm(true);
       }
-      const handlerCloseForm=()=>{
+      const handlerCloseFormConductor=()=>{
         setVisibleForm(false);
-        setTrabajadorSelected(initialTrabajadorForm);
+        setConductorSelected(initialConductorForm);
         setErrors({});
       }
       return {
-        trabajadores,
-        trabajadorSelected,
-        initialTrabajadorForm,
-        visibleForm,
-        errorsTrabajador,
-        handlerAddTrabajador,
-        handlerRemoveTrabajador,
-        handlerTrabajadorSelectedForm,
-        handlerOpenForm,
-        handlerCloseForm,
-        getTrabajadores,
+        conductores,
+        conductorSelected,
+        initialConductorForm,
+        visibleFormConductor,
+        errorsConductor,
+        handlerAddConductor,
+        handlerRemoveConductor,
+        handlerConductorSelectedForm,
+        handlerOpenFormConductor,
+        handlerCloseFormConductor,
+        getConductores,
       }
 }
