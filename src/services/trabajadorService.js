@@ -40,6 +40,7 @@ export const save= async(trabajador)=>{
             estado: trabajador.estado,
             idUser:trabajador.idUser == 0 ? null : trabajador.idUser
     };
+        console.log(initialTrabajadorForm);
         return await AllApis.post(`${BASE_URL}trabajador`, initialTrabajadorForm);
     }catch(error){
         console.error(error);

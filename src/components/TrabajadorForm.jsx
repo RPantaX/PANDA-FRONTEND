@@ -1,27 +1,28 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import {  useEffect, useState } from "react"
 import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidadesBD } from "../utilities/ObjectsBD";
 import { Button, Form, Input, Select } from "antd";
 import './formStyles.css';
+import { useTrabajadores } from "./hook/useTrabajadores";
 
 export const TrabajadorForm = ({trabajadorSelected}) => {
-    const {handlerAddTrabajador, initialTrabajadorForm, errorsTrabajador}= useContext(UserContext);
+    const {handlerAddTrabajador, initialTrabajadorForm, errorsTrabajador}= useTrabajadores();
     const [trabajadorForm, setTrabajadorForm] = useState(initialTrabajadorForm)
     const {id, nombres, apellidos, numIdentidad, fechaNacimiento,genero,estadoCivil, nacionalidad, direccionResidencia,telefono, email, cargo, numCuentaBancaria, estado, idUser}=trabajadorForm;
+    //estados solo para este formulario
     const [nacionalidades, setNacionalidades] = useState([]);
     const [cargos, setCargos] = useState([]);
     const [estadosCiviles, setEstadoCivil] = useState([]);
     const [generos, setGeneros] = useState([]);
     const [status, setStatus] = useState([])
     useEffect(() => {
-        //formateo de bd cuando actualizamos un registro
-            if (trabajadorSelected.fechaNacimiento) {
-                trabajadorSelected.fechaNacimiento = formatDate(trabajadorSelected.fechaNacimiento);
-            }
-            setTrabajadorForm({
-                ...trabajadorSelected
-            });
-    }, [trabajadorSelected])
+        if (trabajadorSelected.fechaNacimiento) {
+            const updatedTrabajador = {
+                ...trabajadorSelected,
+                fechaNacimiento: formatDate(trabajadorSelected.fechaNacimiento)
+            };
+            setTrabajadorForm(updatedTrabajador);
+        }
+    }, [trabajadorSelected]);
     
     useEffect(() => {
         // Fetch de Nacionalidades

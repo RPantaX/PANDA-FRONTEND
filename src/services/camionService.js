@@ -17,7 +17,7 @@ export const save= async(camion)=>{
         const ChangeCamion = {
             marca: camion.marca,
             modelo: camion.modelo,
-            anoFabricacion: camion.anoFabricacion.id,
+            anoFabricacion: camion.anoFabricacion,
             placa: camion.placa,
             carreta:{
                 id:camion.carreta.id,

@@ -3,13 +3,11 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-
+import { userAuth } from '../../auth/pages/hooks/userAuth';
 import './Nav.css';
-import { useContext } from "react";
-import { AuthContext } from "../../auth/context/AuthContext";
 
 const Navbar = () => {
-  const {login, handlerLogout}= useContext(AuthContext);
+   const {login, handlerLogout} = userAuth();
     const menu = (
         <Menu>
           <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handlerLogout}>

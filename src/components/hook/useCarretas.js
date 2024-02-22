@@ -1,26 +1,21 @@
-import { useContext, useReducer, useState } from "react";
-import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { globalinitialObjects, initialCarretaForm, initialErrorsCarreta } from "../../utilities/initialObjects";
+import { initialCarretaForm } from "../../utilities/initialObjects";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../../services/carretaService";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../auth/context/AuthContext";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { addCarreta, loadingCarreta, loadingError, onCarretaSelectedForm, onCloseForm, removeCarreta, updateCarreta, onOpenForm } from "../../store/slices/carreta/carretaSlice";
 
 export const useCarretas = () => {
-    const [carretas, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [carretaSelected, setCarretaSelected] = useState(initialCarretaForm);
-    const [visibleFormCarreta, setVisibleForm] = useState(false);
-    const [errorsCarreta, setErrors] = useState(initialErrorsCarreta);
-    const{login, handlerLogout} = useContext(AuthContext);
+    const {carretas,carretaSelected, visibleForm, errorsCarreta } = useSelector(state => state.carretas);
+    const dispatch = useDispatch();
+    const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
 
     const getCarretas = async (page) =>{
       try {
         const result = await findAll(page);
-        dispatch({
-        type: 'loadingTrabajadores',
-        payload: result.data,
-      });
+        dispatch(loadingCarreta(result.data));
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
@@ -35,13 +30,11 @@ export const useCarretas = () => {
       try {
         if(conductor.id===0){
           response= await save(conductor);
+          dispatch(addCarreta(response.data));
         } else{
           response= await update(conductor);
+          dispatch(updateCarreta(response.data));
         }
-        dispatch({
-            type: (conductor.id === 0) ? 'addTrabajador' : 'updateTrabajador',
-            payload: response.data,
-          });
           Swal.fire({
               title: "Registro Creado",
               text: "El Registro ha sido creado con éxito!",
@@ -51,11 +44,11 @@ export const useCarretas = () => {
             navigate('/carretas')
       } catch (error) {
         if(error.response && error.response.status==400){
-          setErrors(error.response.data);
+          dispatch(loadingError(error.response.data));
         }else if (error.response && error.response.status==500 && 
           error.response.data?.mensaje?.includes('registrada')){
             if(error.response.data?.mensaje?.includes('placa')){
-              setErrors({placa: error.response.data.mensaje});
+              dispatch(loadingError({placa: error.response.data.mensaje}));
             }
         }else if(error.response?.status == 401){
           handlerLogout();
@@ -85,11 +78,8 @@ export const useCarretas = () => {
           }).then(async(result) => {
             if (result.isConfirmed) {
               try {
-                remove(id);
-                dispatch({
-                    type:'removeTrabajador',
-                    payload:id
-                  });
+                await remove(id);
+                dispatch(removeCarreta(id));
               swalWithBootstrapButtons.fire({
                 title: "Registro eliminado!",
                 text: "El registro ha sido eliminado con éxito.",
@@ -114,22 +104,20 @@ export const useCarretas = () => {
           });
       }
       const handlerCarretaSelectedForm=(carreta)=>{
-        setVisibleForm(true);
-        setCarretaSelected({...carreta});      
+        dispatch(onCarretaSelectedForm({...carreta}));
       }
       const handlerOpenFormCarreta=()=>{
-        setVisibleForm(true);
+        dispatch(onOpenForm());
       }
       const handlerCloseFormCarreta=()=>{
-        setVisibleForm(false);
-        setCarretaSelected(initialCarretaForm);
-        setErrors({});
+        dispatch(onCloseForm())
+        dispatch(loadingError())
       }
       return {
         carretas,
         carretaSelected,
         initialCarretaForm,
-        visibleFormCarreta,
+        visibleForm,
         errorsCarreta,
         handlerAddCarreta,
         handlerRemoveCarreta,

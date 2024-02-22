@@ -1,25 +1,25 @@
 import { Button } from "antd";
 import { ConductorList } from "../components/ConductorList";
 import { ConductorModalForm } from "../components/ConductorModalForm";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import { AuthContext } from "../auth/context/AuthContext";
+import { useEffect } from "react";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useConductores } from "../components/hook/useConductores";
 
 
 export const ConductoresPages = () => {
   const {
-    visibleFormConductor,
+    visibleForm,
     handlerOpenFormConductor,
     getConductores,
-  } = useContext(UserContext);
+  } = useConductores();
 
   useEffect(() => {
     getConductores();
   }, []);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
     return (
     <>
-    {!visibleFormConductor || 
+    {!visibleForm || 
         <ConductorModalForm/>
       }
       <div className="container my-4">
@@ -27,7 +27,7 @@ export const ConductoresPages = () => {
           <div className="row">
 
               <div className="col">
-                {(visibleFormConductor ||!login.isAdmin) ||<Button style={{ marginBottom:10}} onClick={handlerOpenFormConductor}>
+                {(visibleForm ||!login.isAdmin) ||<Button style={{ marginBottom:10}} onClick={handlerOpenFormConductor}>
                 Crear Conductor</Button>
                 }
                 {

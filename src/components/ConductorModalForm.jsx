@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { ConductorForm } from "./ConductorForm";
-import { UserContext } from "../context/UserContext";
+import { useConductores } from "./hook/useConductores";
 
 export const ConductorModalForm = () => {
 
-    const  {conductorSelected, handlerCloseFormConductor}= useContext(UserContext);
+    const  {conductorSelected, handlerCloseFormConductor}= useConductores();
     return (
       <div className="abrir-modal animacion fadeIn">
             <div className="modal" style={{display: "block"}} tabIndex="-1">

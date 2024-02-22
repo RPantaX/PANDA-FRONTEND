@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useConductores } from "./hook/useConductores";
 export const ConductorList = () => {
-    const {conductores,getConductores,handlerRemoveConductor, handlerConductorSelectedForm}= useContext(UserContext);
+    const {conductores,getConductores,handlerRemoveConductor, handlerConductorSelectedForm}= useConductores();
   
   const {contenido}=conductores|| { contenido: [] };
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
 
   useEffect(() => {
     setLoading(true)

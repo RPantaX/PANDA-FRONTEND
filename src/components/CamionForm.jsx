@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
+import { useCamiones } from "./hook/useCamiones";
 export const CamionForm = ({camionSelected, handlerCloseFormCamion}) => {
-    const {handlerAddCamion, initialCamionForm, errorsCamion}= useContext(UserContext);
+    const {handlerAddCamion, initialCamionForm, errorsCamion}= useCamiones();
     const [camionForm, setCamionForm] = useState(initialCamionForm)
     const {id, marca, modelo, anoFabricacion, placa, carreta}=camionForm;
     useEffect(() => {
@@ -66,9 +66,9 @@ export const CamionForm = ({camionSelected, handlerCloseFormCamion}) => {
             className="form-control my-3 w-75"
             placeholder="ID Carreta"
             name="carreta"
-            value={carreta.id}
+            value={carreta && carreta.id !== null ? carreta.id : 0}
             onChange={onInputChange}
-            />
+        />
         <p className="text-danger">{errorsCamion?.carreta}</p>
         <input type="hidden"
             name="id"

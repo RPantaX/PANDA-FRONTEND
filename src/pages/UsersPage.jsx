@@ -1,8 +1,8 @@
 import { Button } from "antd";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect } from "react";
 import { UserList } from "../components/UserList";
 import { UserModalForm } from "../components/UserModalForm";
+import { useUser } from "../components/hook/useUser";
 
 
 export const UsersPage = () => {
@@ -10,7 +10,7 @@ export const UsersPage = () => {
         visibleFormUser,
         handlerOpenFormUser,
         getUsers,
-      } = useContext(UserContext);
+      } = useUser(); //obtenemos la data de redux con nuestro hook
     
       useEffect(() => {
         getUsers();

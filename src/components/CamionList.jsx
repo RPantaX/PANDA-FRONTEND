@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useCamiones } from "./hook/useCamiones";
 
 export const CamionList = () => {
-    const {camiones,getCamiones,handlerRemoveCamion, handlerCamionSelectedForm}= useContext(UserContext);
+    const {camiones,getCamiones,handlerRemoveCamion, handlerCamionSelectedForm}= useCamiones();
   
   const {contenido}=camiones|| { contenido: [] };
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
   useEffect(() => {
     setLoading(true)
     getCamiones(0);
@@ -52,20 +52,28 @@ export const CamionList = () => {
   {
     title: 'Informacion de carreta',
     children:[
-        {
-            title: 'ID',
-            dataIndex: 'carreta',
-            key: 'carretaID',
-            width: 150,
-            render: (carreta) => carreta.id,
-        },
-        {
-            title: 'Placa',
-            dataIndex: 'carreta',
-            key: 'carretaPlaca',
-            width: 150,
-            render: (carreta) => carreta.placa,
-        },
+      {
+        title: 'ID',
+        dataIndex: 'carreta',
+        key: 'carretaID',
+        width: 150,
+        render: (carreta) => (
+            <span style={{ color: carreta && carreta.id !== null ? 'black' : 'red' }}>
+                {carreta && carreta.id !== null ? carreta.id : 'No existe'}
+            </span>
+        ),
+    },
+    {
+        title: 'Placa',
+        dataIndex: 'carreta',
+        key: 'carretaPlaca',
+        width: 150,
+        render: (carreta) => (
+            <span style={{ color: carreta && carreta.placa !== null ? 'black' : 'red' }}>
+                {carreta && carreta.placa !== null ? carreta.placa : 'No existe'}
+            </span>
+        ),
+    },
     ]
   },
 ];

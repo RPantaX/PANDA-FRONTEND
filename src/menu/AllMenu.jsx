@@ -1,7 +1,7 @@
 import { Button, Layout, theme } from 'antd';
 import {Logo} from '../components/Logo';
 import { MenuList } from '../components/MenuList';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { TrabajadoresPages } from '../pages/TrabajadoresPages';
@@ -9,8 +9,8 @@ import { RegisterPages } from '../pages/RegisterPages';
 import { ConductoresPages } from '../pages/ConductoresPage';
 import { CamionesPage } from '../pages/CamionesPage';
 import { CarretasPage } from '../pages/CarretasPage';
-import { AuthContext } from '../auth/context/AuthContext';
 import { UsersPage } from '../pages/UsersPage';
+import { userAuth } from '../auth/pages/hooks/userAuth';
 
 const {Header, Sider} = Layout;
 
@@ -21,7 +21,8 @@ export const AllMenu = () => {
     const{
     token: {colorBgContainer}, 
     } = theme.useToken();
-    const{login} = useContext(AuthContext);
+    
+    const{login} = userAuth();
     
   return (
     <Layout>

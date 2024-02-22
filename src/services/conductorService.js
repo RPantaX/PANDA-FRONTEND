@@ -16,13 +16,13 @@ export const save= async(conductor)=>{
         const initialConductorForm = {
             id: conductor.id,
             trabajador: {
-                id:conductor.trabajador.id
+                id:conductor.trabajador
             },
             tipoLicencia:{
-                id:conductor.tipoLicencia.id
+                id:conductor.tipoLicencia
             },
             camion: {
-                id:conductor.camion.id
+                id:conductor.camion
             },
             certConducirCamion: conductor.certConducirCamion,
             certPsicofisico: conductor.certPsicofisico,
@@ -30,6 +30,7 @@ export const save= async(conductor)=>{
             certPrimerosAuxilios: conductor.certPrimerosAuxilios,
             certSeguridadVial: conductor.certSeguridadVial,
     };
+    console.log(conductor);
     console.log(initialConductorForm);
         return await AllApis.post(`${BASE_URL}conductor`, initialConductorForm);
     }catch(error){
@@ -46,7 +47,7 @@ export const update=async(conductor)=>{
                 id:conductor.trabajador.id
             },
             tipoLicencia:{
-                id:conductor.tipoLicencia.id
+                id:conductor.tipoLicencia
             },
             camion: {
                 id:conductor.camion.id
@@ -57,6 +58,7 @@ export const update=async(conductor)=>{
             certPrimerosAuxilios: conductor.certPrimerosAuxilios,
             certSeguridadVial: conductor.certSeguridadVial,
     };
+    console.log(conductor);
     console.log(initialConductorForm);
         return await AllApis.put(`${BASE_URL}conductor/${conductor.id}`, initialConductorForm);
     }catch(error){

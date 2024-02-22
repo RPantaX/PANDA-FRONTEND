@@ -1,47 +1,38 @@
-import { useContext, useReducer, useState } from "react";
-import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
-import { globalinitialObjects, initialConductorForm, initialErrorsConductor } from "../../utilities/initialObjects";
+import { initialConductorForm } from "../../utilities/initialObjects";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../../services/conductorService";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../auth/context/AuthContext";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { addConductor, loadingConductor, loadingError, onCloseForm, onConductorSelectedForm, onOpenForm, removeConductor, updateConductor } from "../../store/slices/conductor/conductorSlice";
 
 export const useConductores = () => {
-    const [conductores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [conductorSelected, setConductorSelected] = useState(initialConductorForm);
-    const [visibleFormConductor, setVisibleForm] = useState(false);
-    const [errorsConductor, setErrors] = useState(initialErrorsConductor);
-    const{login, handlerLogout} = useContext(AuthContext);
+    const {conductores,conductorSelected, errorsConductor, visibleForm } = useSelector(state => state.conductores)
+    const dispatch = useDispatch();
+    const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
 
     const getConductores = async (page) =>{
       try {
         const result = await findAll(page);
-        dispatch({
-        type: 'loadingTrabajadores',
-        payload: result.data,
-      });
+        dispatch(loadingConductor(result.data));
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
         }
       }
-      
     }
-
     const handlerAddConductor=async(conductor)=>{
       if(!login.isAdmin) return;
       let response;
       try {
         if(conductor.id===0){
           response= await save(conductor);
+          dispatch(addConductor(response.data))
         } else{
           response= await update(conductor);
+          dispatch(updateConductor(response.data))
         }
-        dispatch({
-            type: (conductor.id === 0) ? 'addTrabajador' : 'updateTrabajador',
-            payload: response.data,
-          });
           Swal.fire({
               title: "Conductor Creado",
               text: "El Conductor ha sido creado con éxito!",
@@ -51,14 +42,14 @@ export const useConductores = () => {
             navigate('/conductores')
       } catch (error) {
         if(error.response && error.response.status==400){
-          setErrors(error.response.data);
+          dispatch(loadingError(error.response.data));
         }else if (error.response && error.response.status==500 && 
           (error.response.data?.mensaje?.includes('asignado') || error.response.data?.mensaje?.includes('existe'))){
             if(error.response.data?.mensaje?.includes('trabajador')){
-              setErrors({trabajador: error.response.data.mensaje})
+              dispatch(loadingError({trabajador: error.response.data.mensaje}));
             }
             if(error.response.data?.mensaje?.includes('camion')){
-              setErrors({camion: error.response.data.mensaje})
+              dispatch(loadingError({camion: error.response.data.mensaje}))
             }
         }else if(error.response?.status == 401){
           handlerLogout();
@@ -90,16 +81,12 @@ export const useConductores = () => {
             if (result.isConfirmed) {
               try {
                 await remove(id);
-                dispatch({
-                    type:'removeTrabajador',
-                    payload:id
-                  });
+                dispatch(removeConductor(id));
               swalWithBootstrapButtons.fire({
                 title: "Conductor eliminado!",
                 text: "El conductor ha sido eliminado con éxito.",
                 icon: "success"
               });
-                
               } catch (error) {
                 if(error.response?.status == 401){
                   handlerLogout();
@@ -118,22 +105,20 @@ export const useConductores = () => {
           });
       }
       const handlerConductorSelectedForm=(conductor)=>{
-        setVisibleForm(true);
-        setConductorSelected({...conductor});      
+        dispatch(onConductorSelectedForm({...conductor}));
       }
       const handlerOpenFormConductor=()=>{
-        setVisibleForm(true);
+        dispatch(onOpenForm());
       }
       const handlerCloseFormConductor=()=>{
-        setVisibleForm(false);
-        setConductorSelected(initialConductorForm);
-        setErrors({});
+        dispatch(onCloseForm());
+        dispatch(loadingError({}));
       }
       return {
         conductores,
         conductorSelected,
         initialConductorForm,
-        visibleFormConductor,
+        visibleForm,
         errorsConductor,
         handlerAddConductor,
         handlerRemoveConductor,

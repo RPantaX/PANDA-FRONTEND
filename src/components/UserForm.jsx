@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
+import { useUser } from "./hook/useUser";
 export const UserForm = ({userSelected, handlerCloseFormUser}) => {
-    const {handlerAddUser, initialUserForm, errorsUser}= useContext(UserContext);
-    const [userForm, setUserForm] = useState(initialUserForm);
+    const {handlerAddUser, initialUserForm, errorsUser}= useUser();
+    const [userForm, setUserForm] = useState(initialUserForm); //estos estados son propios de redux, no es necesario cambiar nada.
     const [checked, setChecked] = useState(userForm.admin);
     const {id, numIdentidad, nombres, apellidos, username, email, telefono, password, admin}=userForm;
     useEffect(() => {

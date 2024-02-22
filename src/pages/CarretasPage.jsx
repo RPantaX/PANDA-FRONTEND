@@ -1,25 +1,25 @@
 import { Button } from "antd";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect } from "react";
 import { CarretaList } from "../components/CarretaList";
 import { CarretaModalForm } from "../components/CarretaModalForm";
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useCarretas } from "../components/hook/useCarretas";
 
 
 export const CarretasPage = () => {
   const {
-    visibleFormCarreta,
+    visibleForm,
     handlerOpenFormCarreta,
     getCarretas,
-  } = useContext(UserContext);
+  } = useCarretas();
 
   useEffect(() => {
     getCarretas();
   }, []);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
     return (
     <>
-    {!visibleFormCarreta || 
+    {!visibleForm || 
         <CarretaModalForm/>
       }
       <div className="container my-4">
@@ -28,7 +28,7 @@ export const CarretasPage = () => {
 
               <div className="col">
                 {
-                (visibleFormCarreta ||!login.isAdmin) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCarreta}>
+                (visibleForm ||!login.isAdmin) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCarreta}>
                 Crear Carreta</Button>
                 }
                 {

@@ -7,11 +7,10 @@ import {HomeOutlined,
     FilePdfOutlined,
     FilePptOutlined } from '@ant-design/icons'
 import { Link } from "react-router-dom"
-import { useContext } from "react";
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
 
 export const MenuList = () => {
-    const{login} = useContext(AuthContext);
+    const{login} = userAuth();
   return (
     
         <Menu theme="dark" mode="inline" className="menu-bar">

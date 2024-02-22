@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { CarretaForm } from "./CarretaForm";
+import { useCarretas } from "./hook/useCarretas";
 
 export const CarretaModalForm = () => {
 
-    const  {carretaSelected, handlerCloseFormCarreta}= useContext(UserContext);
+    const  {carretaSelected, handlerCloseFormCarreta}= useCarretas();
     return (
       <div className="abrir-modal animacion fadeIn">
             <div className="modal" style={{display: "block"}} tabIndex="-1">

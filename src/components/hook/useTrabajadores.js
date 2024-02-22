@@ -1,27 +1,21 @@
-import { useContext, useReducer, useState } from "react";
 import Swal from "sweetalert2";
-import { trabajadoresReducers } from "../../reducers/trabajadoresReducers";
 import { findAll, remove, save, update } from "../../services/trabajadorService";
 import { useNavigate } from "react-router-dom";
-import { initialErrorsTrabajador, initialTrabajadorForm, globalinitialObjects } from "../../utilities/initialObjects";
-import { AuthContext } from "../../auth/context/AuthContext";
+import { initialTrabajadorForm,  } from "../../utilities/initialObjects";
+import { useDispatch, useSelector } from "react-redux";
+import { addTrabajador, loadingTrabajadores, onTrabajadorSelectedForm, removeTrabajador, updateTrabajador, loadingError } from "../../store/slices/trabajador/trabajadorSlice";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 
 export const useTrabajadores = () => {
-    const [trabajadores, dispatch] = useReducer(trabajadoresReducers, globalinitialObjects);
-    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
-    const [visibleForm, setVisibleForm] = useState(false);
-    const [errorsTrabajador, setErrors] = useState(initialErrorsTrabajador);
-    const{login, handlerLogout} = useContext(AuthContext);
+    const {trabajadores, trabajadorSelected, errorsTrabajador} = useSelector(state => state.trabajadores);
+    const dispatch = useDispatch();
+    const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
 
     const getTrabajadores = async (page) =>{
       try {
         const result = await findAll(page);
-        dispatch({
-        type: 'loadingTrabajadores',
-        payload: result.data,
-        });
-        
+        dispatch(loadingTrabajadores(result.data));
       } catch (error) {
         if(error.response?.status == 401){
           handlerLogout();
@@ -36,33 +30,30 @@ export const useTrabajadores = () => {
       try {
         if(trabajador.id===0){
           response= await save(trabajador);
+          dispatch(addTrabajador(response.data))
         } else{
           response= await update(trabajador);
+          dispatch(updateTrabajador(response.data));
         }
-        dispatch({
-            type: (trabajador.id === 0) ? 'addTrabajador' : 'updateTrabajador',
-            payload: response.data,
-          });
           Swal.fire({
               title: "Trabajador Creado",
               text: "El trabajador ha sido creado con éxito!",
               icon: "success"
             });
-            handlerCloseForm();
             navigate('/trabajadores')
       } catch (error) {
         if(error.response && error.response.status==400){
-          setErrors(error.response.data);
+          dispatch(loadingError(error.response.data))
         }else if (error.response && error.response.status==500 && 
           error.response.data?.mensaje?.includes('ya existe')){
             if(error.response.data?.mensaje?.includes('identidad')){
-              setErrors({numIdentidad: error.response.data.mensaje})
+              dispatch(loadingError({numIdentidad: error.response.data.mensaje}))
             }
             if(error.response.data?.mensaje?.includes('bancaria')){
-              setErrors({numCuentaBancaria: error.response.data.mensaje})
+              dispatch(loadingError({numCuentaBancaria: error.response.data.mensaje}))
             }
             if(error.response.data?.mensaje?.includes('email')){
-              setErrors({email: error.response.data.mensaje})
+              dispatch(loadingError({email: error.response.data.mensaje}))
             }
         } else if(error.response?.status == 401){
           handlerLogout();
@@ -94,10 +85,7 @@ export const useTrabajadores = () => {
             if (result.isConfirmed) {
               try {
                 await remove(id);
-                dispatch({
-                    type:'removeTrabajador',
-                    payload:id
-                  });
+                dispatch(removeTrabajador(id));
               swalWithBootstrapButtons.fire({
                 title: "Trabajador eliminado!",
                 text: "El trabajador ha sido eliminado con éxito.",
@@ -121,28 +109,16 @@ export const useTrabajadores = () => {
           });
       }
       const handlerTrabajadorSelectedForm=(trabajador)=>{
-        setVisibleForm(true);
-        setTrabajadorSelected({...trabajador});      
-      }
-      const handlerOpenForm=()=>{
-        setVisibleForm(true);
-      }
-      const handlerCloseForm=()=>{
-        setVisibleForm(false);
-        setTrabajadorSelected(initialTrabajadorForm);
-        setErrors({});
+        dispatch(onTrabajadorSelectedForm({...trabajador}));
       }
       return {
         trabajadores,
         trabajadorSelected,
         initialTrabajadorForm,
-        visibleForm,
         errorsTrabajador,
         handlerAddTrabajador,
         handlerRemoveTrabajador,
         handlerTrabajadorSelectedForm,
-        handlerOpenForm,
-        handlerCloseForm,
         getTrabajadores,
       }
 }

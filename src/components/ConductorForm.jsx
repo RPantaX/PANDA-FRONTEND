@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
 import { tipoLicenciaBD } from "../utilities/ObjectsBD";
+import { useConductores } from "./hook/useConductores";
 
 export const ConductorForm = ({conductorSelected, handlerCloseFormConductor}) => {
-    const {handlerAddConductor, initialConductorForm, errorsConductor}= useContext(UserContext);
+    const {handlerAddConductor, initialConductorForm, errorsConductor}= useConductores();
     const [conductorForm, setConductorForm] = useState(initialConductorForm)
     const {id, trabajador, tipoLicencia, camion, certConducirCamion, certPsicofisico, certMecanicaBasica, certPrimerosAuxilios, certSeguridadVial}=conductorForm;
     const [licencias, setLicencias] = useState([]);

@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
+import { useUser } from "./hook/useUser";
 
 export const UserList = () => {
-    const {users,handlerRemoveUser, handlerUserSelectedForm}= useContext(UserContext);
+    const {users,handlerRemoveUser, handlerUserSelectedForm}= useUser();
   const columns = [
   {
     title: 'ID',

@@ -1,18 +1,18 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import {  useEffect, useState } from "react"
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useTrabajadores } from "./hook/useTrabajadores";
 
 export const TrabajadorList = () => {
   
-  const {trabajadores,getTrabajadores,handlerRemoveTrabajador}= useContext(UserContext);
+  const {trabajadores,getTrabajadores,handlerRemoveTrabajador}= useTrabajadores();
   
   const {contenido}=trabajadores|| { contenido: [] };
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
   useEffect(() => {
     setLoading(true)
     getTrabajadores(0);

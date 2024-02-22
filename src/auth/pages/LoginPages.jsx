@@ -3,8 +3,8 @@ import usuariolIcon from '../../images/usuario-icon.png';
 import passwordlIcon from '../../images/password-icon.png';
 import './login.css'
 import Swal from 'sweetalert2';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useState } from 'react';
+import { userAuth } from './hooks/userAuth';
 
 const initialLoginForm={
     username: '',
@@ -12,7 +12,7 @@ const initialLoginForm={
 }
 export const LoginPages = () => {
     //login
-    const {handlerLogin}= useContext(AuthContext)
+    const {handlerLogin}= userAuth()
     const [loginForm, setLoginForm] = useState(initialLoginForm);
     const {username, password}= loginForm;
 

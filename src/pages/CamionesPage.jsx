@@ -1,26 +1,26 @@
 import { Button } from "antd";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect } from "react";
 import { CamionList } from "../components/CamionList";
 import { CamionModalForm } from "../components/CamionModalForm";
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useCamiones } from "../components/hook/useCamiones";
 
 
 export const CamionesPage = () => {
   const {
-    visibleFormCamion,
+    visibleForm,
     handlerOpenFormCamion,
     getCamiones,
-  } = useContext(UserContext);
+  } = useCamiones();
 
   useEffect(() => {
     getCamiones();
   }, []);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
 
     return (
     <>
-    {!visibleFormCamion || 
+    {!visibleForm || 
         <CamionModalForm/>
       }
       <div className="container my-4">
@@ -29,7 +29,7 @@ export const CamionesPage = () => {
 
               <div className="col">
                 {
-                (visibleFormCamion ||!login.isAdmin) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCamion}>
+                (visibleForm ||!login.isAdmin) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCamion}>
                 Crear Camion</Button>
                 }
                 {

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TrabajadorForm } from '../components/TrabajadorForm'
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { useTrabajadores } from '../components/hook/useTrabajadores';
 
 export const RegisterPages = () => {
-    const {trabajadores={},initialTrabajadorForm}=useContext(UserContext);
+    const {trabajadores={},initialTrabajadorForm}=useTrabajadores();
 
-    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm);
-
+    const [trabajadorSelected, setTrabajadorSelected] = useState(initialTrabajadorForm); //use state para registerpages de trabajadores
+    
     const {id} = useParams();
 
     useEffect(() => {

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
+import { useCarretas } from "./hook/useCarretas";
 
 export const CarretaForm = ({carretaSelected, handlerCloseFormCarreta}) => {
-    const {handlerAddCarreta, initialCarretaForm, errorsCarreta}= useContext(UserContext);
+    const {handlerAddCarreta, initialCarretaForm, errorsCarreta}= useCarretas();
     const [carretaForm, setCarretaForm] = useState(initialCarretaForm)
     const {id, marca, capacidadCarga, placa, anoFabricacion}=carretaForm;
     useEffect(() => {

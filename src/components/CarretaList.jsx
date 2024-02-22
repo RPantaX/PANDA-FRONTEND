@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
+import { useCarretas } from "./hook/useCarretas";
 export const CarretaList = () => {
-    const {carretas,getCarretas,handlerRemoveCarreta, handlerCarretaSelectedForm}= useContext(UserContext);
+    const {carretas,getCarretas,handlerRemoveCarreta, handlerCarretaSelectedForm}= useCarretas();
   
   const {contenido}=carretas|| { contenido: [] };
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
 
   useEffect(() => {
     setLoading(true)

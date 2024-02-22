@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { CamionForm } from "./CamionForm";
+import { useCamiones } from "./hook/useCamiones";
 
 export const CamionModalForm = () => {
 
-    const  {camionSelected, handlerCloseFormCamion}= useContext(UserContext);
+    const  {camionSelected, handlerCloseFormCamion}= useCamiones();
     return (
       <div className="abrir-modal animacion fadeIn">
             <div className="modal" style={{display: "block"}} tabIndex="-1">

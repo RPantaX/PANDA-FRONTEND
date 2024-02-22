@@ -1,16 +1,13 @@
-import { useReducer } from "react";
 import Swal from "sweetalert2";
-import { loginReducer } from "../../reducers/loginReducer";
 import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { onLogin, onLogout } from "../../../store/slices/auth/authSlice";
 
-const initialLogin =JSON.parse(sessionStorage.getItem('login')) || {
-    isAuth: false,
-    isAdmin: false,
-    user: undefined,
-  }
 export const userAuth = () => {
-    const [login, dispatch] = useReducer(loginReducer, initialLogin);
+    const dispatch = useDispatch();
+    const {user, isAdmin, isAuth} = useSelector(state => state.auth);
+  //const [login, dispatch] = useReducer(loginReducer, initialLogin);
     const navigate = useNavigate();
 
     const handlerLogin = async ({username, password}) =>{
@@ -20,11 +17,7 @@ export const userAuth = () => {
           const token=response.data.jwt;
           const claims = JSON.parse(window.atob(token.split(".")[1])); //el token se separa por puntos cabezera, claims, firma./viene en base 64->atob nos permite decodificar un script en base 64
           const user = {username: response.data.username}
-
-          dispatch({
-            type: 'login',
-            payload: {user, isAdmin: claims.isAdmin},
-          });
+          dispatch(onLogin({user, isAdmin: claims.isAdmin}));
           sessionStorage.setItem('login', JSON.stringify({
             isAuth: true,
             isAdmin: claims.idAdmin,
@@ -44,16 +37,18 @@ export const userAuth = () => {
       }
     
       const handlerLogout=()=>{
-        dispatch({
-          type: 'logout',
-        });
+        dispatch(onLogout({type: 'logout'}));
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('login');
         sessionStorage.clear();
       }
 
   return {
-    login,
+    login:{
+      user,
+      isAdmin,
+      isAuth,
+    },
     handlerLogin,
     handlerLogout
   }

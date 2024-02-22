@@ -1,12 +1,11 @@
 import { TrabajadorList } from "../components/TrabajadorList";
 import { Button } from "antd";
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../auth/context/AuthContext";
+import { userAuth } from "../auth/pages/hooks/userAuth";
 
 
 export const TrabajadoresPages = () => {
-  const{login} = useContext(AuthContext);
+  const{login} = userAuth();
     return (
     <>
       <div className="container my-4">
