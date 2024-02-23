@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { userAuth } from "../auth/pages/hooks/userAuth";
-import { useCarretas } from "./hook/useCarretas";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useCarretas } from "../hook/useCarretas";
+import '../ListStyle.css';
 export const CarretaList = () => {
     const {carretas,getCarretas,handlerRemoveCarreta, handlerCarretaSelectedForm}= useCarretas();
   
@@ -60,6 +61,7 @@ if (login.isAdmin) {
 }
     return (
       <Table 
+      className="styled-table"
       loading={loading} 
       columns={columns} 
       dataSource={contenido}

@@ -1,10 +1,9 @@
 import { Button } from "antd";
 import { useEffect } from "react";
-import { CarretaList } from "../components/CarretaList";
-import { CarretaModalForm } from "../components/CarretaModalForm";
+import { CarretaList } from "../components/carretas/CarretaList";
+import { CarretaModalForm } from "../components/carretas/CarretaModalForm";
 import { userAuth } from "../auth/pages/hooks/userAuth";
 import { useCarretas } from "../components/hook/useCarretas";
-
 
 export const CarretasPage = () => {
   const {

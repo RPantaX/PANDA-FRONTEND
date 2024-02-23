@@ -1,9 +1,9 @@
-import { ConductorForm } from "./ConductorForm";
-import { useConductores } from "./hook/useConductores";
+import { CamionForm } from "./CamionForm";
+import { useCamiones } from "../hook/useCamiones";
 
-export const ConductorModalForm = () => {
+export const CamionModalForm = () => {
 
-    const  {conductorSelected, handlerCloseFormConductor}= useConductores();
+    const  {camionSelected, handlerCloseFormCamion}= useCamiones();
     return (
       <div className="abrir-modal animacion fadeIn">
             <div className="modal" style={{display: "block"}} tabIndex="-1">
@@ -11,13 +11,13 @@ export const ConductorModalForm = () => {
                 <div className="modal-content">
                   <div className="modal-header" style={{ margin: "auto" }}>
                     <h5 className="modal-title">
-                      {conductorSelected.id>0 ? 'Editar':'Crear'} conductor
+                      {camionSelected.id>0 ? 'Editar':'Crear'} Camión
                     </h5>
                   </div>
                   <div className="modal-body">
-                    <ConductorForm 
-                        conductorSelected={conductorSelected} 
-                        handlerCloseFormConductor={handlerCloseFormConductor}
+                    <CamionForm
+                        camionSelected={camionSelected} 
+                        handlerCloseFormCamion={handlerCloseFormCamion}
                     />  
                   </div>
                 </div>

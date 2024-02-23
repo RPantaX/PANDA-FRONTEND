@@ -1,6 +1,6 @@
 import { Button } from "antd";
-import { ConductorList } from "../components/ConductorList";
-import { ConductorModalForm } from "../components/ConductorModalForm";
+import { ConductorList } from "../components/conductores/ConductorList";
+import { ConductorModalForm } from "../components/conductores/ConductorModalForm";
 import { useEffect } from "react";
 import { userAuth } from "../auth/pages/hooks/userAuth";
 import { useConductores } from "../components/hook/useConductores";

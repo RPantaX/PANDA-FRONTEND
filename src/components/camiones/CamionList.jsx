@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { userAuth } from "../auth/pages/hooks/userAuth";
-import { useCamiones } from "./hook/useCamiones";
-
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useCamiones } from "../hook/useCamiones";
+import '../ListStyle.css';
 export const CamionList = () => {
     const {camiones,getCamiones,handlerRemoveCamion, handlerCamionSelectedForm}= useCamiones();
   
@@ -94,6 +94,7 @@ if (login.isAdmin) {
 }
     return (
       <Table 
+      className="styled-table"
       loading={loading} 
       columns={columns} 
       dataSource={contenido}  

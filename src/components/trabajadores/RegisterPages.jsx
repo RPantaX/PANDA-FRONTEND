@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { TrabajadorForm } from '../components/TrabajadorForm'
+import { TrabajadorForm } from './TrabajadorForm'
 import { useParams } from 'react-router-dom';
-import { useTrabajadores } from '../components/hook/useTrabajadores';
+import { useTrabajadores } from '../hook/useTrabajadores';
 
 export const RegisterPages = () => {
     const {trabajadores={},initialTrabajadorForm}=useTrabajadores();

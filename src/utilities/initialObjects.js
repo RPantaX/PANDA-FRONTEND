@@ -133,3 +133,51 @@ export const initialErrorsUser={
     password:'',
     admin:''
 }
+export const initialGuiaTransportistaForm={
+    id:'',
+    partida:'',
+    llegada:'',
+    fechaTraslado:'',
+    remitenteRuc:'',
+    destinatarioRuc:'',
+    destinatarioRazonSocial:'',
+    destinatarioDireccion:'',
+    pesoCarga:'',
+    numDocChofer:'',
+    rucPagadorDelFlete:'',
+    placaVehiculo:'',
+    idUser:0
+}
+export const initialErrorsGuiaTransportista={
+    partida:'',
+    llegada:'',
+    fechaTraslado:'',
+    remitenteRuc:'',
+    destinatarioRuc:'',
+    destinatarioRazonSocial:'',
+    destinatarioDireccion:'',
+    pesoCarga:'',
+    numDocChofer:'',
+    rucPagadorDelFlete:'',
+    placaVehiculo:''
+}
+export const initialGuiaTransportistaById={
+    id:'',
+    serieGuia:'',
+    numeroGuia:'',
+    partida:'',
+    llegada:'',
+    fechaEmision:'',
+    fechaTraslado:'',
+    remitenteRuc:'',
+    remitenteRazonSocial:'',
+    remitenteDireccion:'',
+    destinatarioRuc:'',
+    destinatarioRazonSocial:'',
+    destinatarioDireccion:'',
+    pesoCarga:'',
+    numDocChofer:'',
+    nombreChofer:'',
+    placaVehiculo:'',
+    rucPagadorDelFlete:''
+}

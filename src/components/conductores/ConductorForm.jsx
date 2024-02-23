@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { tipoLicenciaBD } from "../utilities/ObjectsBD";
-import { useConductores } from "./hook/useConductores";
+import { tipoLicenciaBD } from "../../utilities/ObjectsBD";
+import { useConductores } from "../hook/useConductores";
 
 export const ConductorForm = ({conductorSelected, handlerCloseFormConductor}) => {
     const {handlerAddConductor, initialConductorForm, errorsConductor}= useConductores();

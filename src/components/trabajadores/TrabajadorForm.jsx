@@ -1,8 +1,8 @@
 import {  useEffect, useState } from "react"
-import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidadesBD } from "../utilities/ObjectsBD";
+import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidadesBD } from "../../utilities/ObjectsBD";
 import { Button, Form, Input, Select } from "antd";
 import './formStyles.css';
-import { useTrabajadores } from "./hook/useTrabajadores";
+import { useTrabajadores } from "../hook/useTrabajadores";
 
 export const TrabajadorForm = ({trabajadorSelected}) => {
     const {handlerAddTrabajador, initialTrabajadorForm, errorsTrabajador}= useTrabajadores();
@@ -116,7 +116,7 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 <Form.Item label="Fecha de Nacimiento">
                 <input 
                 className="form-control my-0 w-1"
-                style={{height:40,}}
+                style={{height:32,}}
                 name="fechaNacimiento"
                 type="date"
                 value={fechaNacimiento}

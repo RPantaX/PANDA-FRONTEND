@@ -43,7 +43,7 @@ export const MenuList = () => {
                 Facturas
                 </Menu.Item>
                 <Menu.Item key={"guiasRemitente"} icon={<FilePptOutlined />}>
-                Guias de transportista
+                <Link to="/guia-transportistas">Guias de transportista</Link>
                 </Menu.Item>
             
             </Menu.SubMenu>

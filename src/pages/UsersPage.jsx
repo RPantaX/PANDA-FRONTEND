@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { useEffect } from "react";
-import { UserList } from "../components/UserList";
-import { UserModalForm } from "../components/UserModalForm";
+import { UserList } from "../components/usuarios/UserList";
+import { UserModalForm } from "../components/usuarios/UserModalForm";
 import { useUser } from "../components/hook/useUser";
 
 

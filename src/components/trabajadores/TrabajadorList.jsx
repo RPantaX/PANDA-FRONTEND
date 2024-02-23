@@ -2,9 +2,9 @@ import {  useEffect, useState } from "react"
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 import { NavLink } from "react-router-dom";
-import { userAuth } from "../auth/pages/hooks/userAuth";
-import { useTrabajadores } from "./hook/useTrabajadores";
-
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useTrabajadores } from "../hook/useTrabajadores";
+import '../ListStyle.css';
 export const TrabajadorList = () => {
   
   const {trabajadores,getTrabajadores,handlerRemoveTrabajador}= useTrabajadores();
@@ -153,6 +153,7 @@ if (login.isAdmin) {
 }
     return (
       <Table 
+      className="styled-table"
       loading={loading} 
       columns={columns} 
       dataSource={contenido}  

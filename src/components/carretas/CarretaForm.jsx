@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useCarretas } from "./hook/useCarretas";
+import { useCarretas } from "../hook/useCarretas";
 
 export const CarretaForm = ({carretaSelected, handlerCloseFormCarreta}) => {
     const {handlerAddCarreta, initialCarretaForm, errorsCarreta}= useCarretas();

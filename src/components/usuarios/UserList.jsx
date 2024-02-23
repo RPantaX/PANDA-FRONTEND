@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { useUser } from "./hook/useUser";
-
+import { useUser } from "../hook/useUser";
+import '../ListStyle.css';
 export const UserList = () => {
     const {users,handlerRemoveUser, handlerUserSelectedForm}= useUser();
   const columns = [
@@ -65,6 +65,7 @@ export const UserList = () => {
 ];
     return (
       <Table 
+      className="styled-table"
       columns={columns} 
       dataSource={users}  
       scroll={{

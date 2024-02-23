@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { useEffect } from "react";
-import { CamionList } from "../components/CamionList";
-import { CamionModalForm } from "../components/CamionModalForm";
+import { CamionList } from "../components//camiones/CamionList";
+import { CamionModalForm } from "../components/camiones/CamionModalForm";
 import { userAuth } from "../auth/pages/hooks/userAuth";
 import { useCamiones } from "../components/hook/useCamiones";
 

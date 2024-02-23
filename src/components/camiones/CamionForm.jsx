@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useCamiones } from "./hook/useCamiones";
+import { useCamiones } from "../hook/useCamiones";
 export const CamionForm = ({camionSelected, handlerCloseFormCamion}) => {
     const {handlerAddCamion, initialCamionForm, errorsCamion}= useCamiones();
     const [camionForm, setCamionForm] = useState(initialCamionForm)

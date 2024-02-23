@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import { userAuth } from "../auth/pages/hooks/userAuth";
-import { useConductores } from "./hook/useConductores";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
+import { useConductores } from "../hook/useConductores";
+import '../ListStyle.css';
 export const ConductorList = () => {
     const {conductores,getConductores,handlerRemoveConductor, handlerConductorSelectedForm}= useConductores();
   
@@ -162,6 +163,7 @@ if (login.isAdmin) {
 
     return (
       <Table 
+      className="styled-table"
       loading={loading} 
       columns={columns} 
       dataSource={contenido}  

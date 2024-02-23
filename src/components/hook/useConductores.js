@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { userAuth } from "../../auth/pages/hooks/userAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { addConductor, loadingConductor, loadingError, onCloseForm, onConductorSelectedForm, onOpenForm, removeConductor, updateConductor } from "../../store/slices/conductor/conductorSlice";
-
 export const useConductores = () => {
     const {conductores,conductorSelected, errorsConductor, visibleForm } = useSelector(state => state.conductores)
     const dispatch = useDispatch();

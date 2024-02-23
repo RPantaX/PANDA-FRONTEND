@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useUser } from "./hook/useUser";
+import { useUser } from "../hook/useUser";
 export const UserForm = ({userSelected, handlerCloseFormUser}) => {
     const {handlerAddUser, initialUserForm, errorsUser}= useUser();
     const [userForm, setUserForm] = useState(initialUserForm); //estos estados son propios de redux, no es necesario cambiar nada.

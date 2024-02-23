@@ -1,23 +1,23 @@
-import { CamionForm } from "./CamionForm";
-import { useCamiones } from "./hook/useCamiones";
+import { UserForm } from "./UserForm";
+import { useUser } from "../hook/useUser";
 
-export const CamionModalForm = () => {
+export const UserModalForm = () => {
 
-    const  {camionSelected, handlerCloseFormCamion}= useCamiones();
+    const  {userSelected, handlerCloseFormUser}= useUser();
     return (
       <div className="abrir-modal animacion fadeIn">
-            <div className="modal" style={{display: "block"}} tabIndex="-1">
+            <div className="modal" style={{display: "block"}} tabIndex="-1" >
               <div className="modal-dialog" role="document" style={{ margin: "auto", textAlign: "center" }}>
                 <div className="modal-content">
                   <div className="modal-header" style={{ margin: "auto" }}>
                     <h5 className="modal-title">
-                      {camionSelected.id>0 ? 'Editar':'Crear'} Camión
+                      {userSelected.id>0 ? 'Editar':'Crear'} usuario
                     </h5>
                   </div>
                   <div className="modal-body">
-                    <CamionForm
-                        camionSelected={camionSelected} 
-                        handlerCloseFormCamion={handlerCloseFormCamion}
+                    <UserForm
+                        userSelected={userSelected} 
+                        handlerCloseFormUser={handlerCloseFormUser}
                     />  
                   </div>
                 </div>

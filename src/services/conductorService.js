@@ -14,24 +14,11 @@ export const save= async(conductor)=>{
     
     try{
         const initialConductorForm = {
-            id: conductor.id,
-            trabajador: {
-                id:conductor.trabajador
-            },
-            tipoLicencia:{
-                id:conductor.tipoLicencia
-            },
-            camion: {
-                id:conductor.camion
-            },
-            certConducirCamion: conductor.certConducirCamion,
-            certPsicofisico: conductor.certPsicofisico,
-            certMecanicaBasica: conductor.certMecanicaBasica,
-            certPrimerosAuxilios: conductor.certPrimerosAuxilios,
-            certSeguridadVial: conductor.certSeguridadVial,
-    };
-    console.log(conductor);
-    console.log(initialConductorForm);
+            ...conductor,
+            trabajador: { id: conductor.trabajador },
+            tipoLicencia: { id: conductor.tipoLicencia },
+            camion: { id: conductor.camion }
+        };
         return await AllApis.post(`${BASE_URL}conductor`, initialConductorForm);
     }catch(error){
         console.error(error);
@@ -42,24 +29,11 @@ export const save= async(conductor)=>{
 export const update=async(conductor)=>{
     try{
         const initialConductorForm = {
-            id: conductor.id,
-            trabajador: {
-                id:conductor.trabajador.id
-            },
-            tipoLicencia:{
-                id:conductor.tipoLicencia
-            },
-            camion: {
-                id:conductor.camion.id
-            },
-            certConducirCamion: conductor.certConducirCamion,
-            certPsicofisico: conductor.certPsicofisico,
-            certMecanicaBasica: conductor.certMecanicaBasica,
-            certPrimerosAuxilios: conductor.certPrimerosAuxilios,
-            certSeguridadVial: conductor.certSeguridadVial,
-    };
-    console.log(conductor);
-    console.log(initialConductorForm);
+            ...conductor,
+            trabajador: { id: conductor.trabajador.id },
+            tipoLicencia: { id: conductor.tipoLicencia },
+            camion: { id: conductor.camion.id }
+        };
         return await AllApis.put(`${BASE_URL}conductor/${conductor.id}`, initialConductorForm);
     }catch(error){
         console.error(error);
