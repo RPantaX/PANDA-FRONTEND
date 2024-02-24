@@ -5,7 +5,7 @@ import { GuiaTransportistaList } from "../components/guiaTransportista/guiaTrans
 
 
 export const GuiaTransportistaPage = () => {
-  const{login} = userAuth();
+  //const{login} = userAuth();
     return (
     <>
       <div className="container my-4">
@@ -13,12 +13,9 @@ export const GuiaTransportistaPage = () => {
           <div className="row">
 
               <div className="col">
-                {
-                  !login.isAdmin || <NavLink to="/guia-transportista/register"><Button style={{ marginBottom:10}}>
+                <NavLink to="/guia-transportista/register"><Button style={{ marginBottom:10}}>
                   Emitir Guia Transportista</Button>
                   </NavLink>
-                }
-                
                 {
                     <GuiaTransportistaList />
                 }

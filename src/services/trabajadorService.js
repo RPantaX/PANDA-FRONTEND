@@ -28,7 +28,17 @@ export const save= async(trabajador)=>{
         throw error;
     }
 }
-
+export const generatePdf = async()=>{
+    try {
+        const response = await AllApis.get(`${BASE_URL}trabajadores/generar-reporte`, {
+            responseType: 'blob' // Esto indica que esperamos datos binarios en la respuesta
+        });
+        return response.data; // Devolvemos directamente los datos binarios
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
 export const update=async(trabajador)=>{
     try{
         const initialTrabajadorForm = {
@@ -45,6 +55,7 @@ export const update=async(trabajador)=>{
         throw error;
     }
 }
+
 export const remove = async(id)=>{
     try{
         await AllApis.delete(`${BASE_URL}trabajador/${id}`);

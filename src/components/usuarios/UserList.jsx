@@ -50,7 +50,7 @@ export const UserList = () => {
     width: 150,
   },
   {
-    title: 'Actions',
+    title: 'Acciones',
     key: 'operation',
     fixed: 'right',
     width: 100,

@@ -15,7 +15,7 @@ export const LoginPages = () => {
     const {handlerLogin}= userAuth()
     const [loginForm, setLoginForm] = useState(initialLoginForm);
     const {username, password}= loginForm;
-
+    const [isHovered, setIsHovered] = useState(false);
     const onInputChange = ({target}) =>{
         const {name, value}= target;
         setLoginForm({
@@ -30,6 +30,24 @@ export const LoginPages = () => {
         }
         handlerLogin({username, password});
         setLoginForm(initialLoginForm);
+    }
+    const loginAsGuest = () => {
+        // Definir las credenciales para invitados
+        const guestCredentials = {
+            username: "pimpolO",
+            password: "RPantaX#."
+        };
+        // Iniciar sesión con las credenciales de invitado
+        handlerLogin(guestCredentials);
+        // Limpiar el formulario
+        setLoginForm(initialLoginForm);
+    }
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    }
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
     }
   return (
     <>
@@ -59,7 +77,15 @@ export const LoginPages = () => {
                     value = {password}
                     onChange={onInputChange} />
             </div>
-            <div className='invitado'><p> <strong>Ingresar como invitado</strong></p></div>
+            <div className='invitado'>
+                <p 
+                    onMouseEnter={handleMouseEnter} 
+                    onMouseLeave={handleMouseLeave} 
+                    onClick={loginAsGuest} 
+                    style={{cursor: isHovered ? 'pointer' : 'auto'}}>
+                    <strong>Ingresar como invitado</strong>
+                </p>
+            </div>
             <div >
                 <button type='submit'>Iniciar Sesión</button>
             </div>

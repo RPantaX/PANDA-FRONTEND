@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useCamiones } from "../hook/useCamiones";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 export const CamionForm = ({camionSelected, handlerCloseFormCamion}) => {
+    const{login} = userAuth();
     const {handlerAddCamion, initialCamionForm, errorsCamion}= useCamiones();
     const [camionForm, setCamionForm] = useState(initialCamionForm)
     const {id, marca, modelo, anoFabricacion, placa, carreta}=camionForm;
@@ -73,17 +75,32 @@ export const CamionForm = ({camionSelected, handlerCloseFormCamion}) => {
         <input type="hidden"
             name="id"
             value={id} />
-            <button
-                className="btn btn-primary my-1 mx-1"
-                type="submit"
-            >{id>0? 'Editar' : 'crear'}
+
+
+        {
+            login.isAdmin?
+            <>
+            <button className="btn btn-primary my-1 mx-1" type="submit">
+                {id > 0 ? 'Editar' : 'Crear'}
             </button>
-            {!handlerCloseFormCamion || <button
+            {!handlerCloseFormCamion || (
+                <button className="btn btn-danger my-1 mx-1" type="button" onClick={onCloseForm}>
+                    Cerrar
+                </button>
+            )}
+            </>
+            :
+            <>
+            {!handlerCloseFormCamion} <button
               className="btn btn-danger my-1 mx-1"
               type="button"
               onClick={onCloseForm}>
                   Cerrar
-            </button>}
+                </button>
+                <p style={{textAlign:"center", color:"red"}}>Esta es una muestra, solo los Administradores pueden gestionar los registros</p>
+
+            </>
+        }
     </form>
   )
 }

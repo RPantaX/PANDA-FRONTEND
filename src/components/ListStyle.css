@@ -1,20 +1,12 @@
-.styled-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
 .styled-table th,
 .styled-table td {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 1px;
+    justify-content: center;
+    text-align: center;
 }
-
-.styled-table thead th { /* Estilo para los encabezados de columna */
-    background-color: navy;
-    color: white;
-}
-
-.styled-table .ant-table-cell { /* Estilo para las celdas de la tabla */
-    border: 1px solid #dddddd;
-}
+.custom-table-header .ant-table-thead > tr > th {
+    background-color: #1a3351; /* Color de fondo azul oscuro */
+    color: white; /* Color del texto blanco */
+  }

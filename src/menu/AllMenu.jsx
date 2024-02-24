@@ -55,11 +55,12 @@ export const AllMenu = () => {
             <Route path="/camiones" element={<CamionesPage/>} />
             <Route path="/carretas" element={<CarretasPage/>} />
             <Route path="/guia-transportista/:id" element={<GuiaPdf/>} /> 
+            <Route path="/guia-transportista/register" element={ <RegisterPagesGuia/>} />
+            <Route path="/trabajadores/register" element={ <RegisterPages/>} />
+            
             {!login.isAdmin ||
             <>
               <Route path="/usuarios" element={<UsersPage/>} />
-              <Route path="/guia-transportista/register" element={ <RegisterPagesGuia/>} />
-              <Route path="/trabajadores/register" element={ <RegisterPages/>} />
               <Route path="/trabajadores/edit/:id" element={<RegisterPages/>} /> 
             </>
             }

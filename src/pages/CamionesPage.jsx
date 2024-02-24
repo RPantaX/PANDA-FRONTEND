@@ -2,7 +2,6 @@ import { Button } from "antd";
 import { useEffect } from "react";
 import { CamionList } from "../components//camiones/CamionList";
 import { CamionModalForm } from "../components/camiones/CamionModalForm";
-import { userAuth } from "../auth/pages/hooks/userAuth";
 import { useCamiones } from "../components/hook/useCamiones";
 
 
@@ -16,7 +15,6 @@ export const CamionesPage = () => {
   useEffect(() => {
     getCamiones();
   }, []);
-  const{login} = userAuth();
 
     return (
     <>
@@ -29,7 +27,7 @@ export const CamionesPage = () => {
 
               <div className="col">
                 {
-                (visibleForm ||!login.isAdmin) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCamion}>
+                (visibleForm) || <Button style={{ marginBottom:10}} onClick={handlerOpenFormCamion}>
                 Crear Camion</Button>
                 }
                 {

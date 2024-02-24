@@ -2,8 +2,9 @@ import {  useEffect, useState } from "react"
 import { formatDate } from "../../utilities/ObjectsBD";
 import { useGuiaTransportistas } from "../hook/useGuiaTransportista";
 import pandaImage from "../../images/panda-small-icon.jpeg"
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 export const GuiaTransportistaForm = ({guiaTransportistaSelected, user}) => {
-
+    const{login} = userAuth();
     const {handlerAddGuia, initialGuiaTransportistaForm, errorsGuiaTransportista}= useGuiaTransportistas();
     const [guiaForm, setGuiaForm] = useState(initialGuiaTransportistaForm)
     const { partida, llegada, fechaTraslado, remitenteRuc, destinatarioRuc, destinatarioRazonSocial, destinatarioDireccion, pesoCarga, numDocChofer, rucPagadorDelFlete, placaVehiculo } =guiaForm;
@@ -115,13 +116,15 @@ export const GuiaTransportistaForm = ({guiaTransportistaSelected, user}) => {
             </div>
           </div>
             </div>
-
-            <button
-            className="btn btn-primary my-1 mx-1"
-            type="submit"
-        >
-            Emitir
-        </button>
+            {
+              login.isAdmin? <button
+              className="btn btn-primary my-1 mx-1"
+              type="submit"
+          >
+              Emitir
+          </button> : <p style={{textAlign:"center", color:"red"}}>Esta es una muestra, solo los Administradores pueden gestionar los registros</p>
+            }
+            
         </div>
         
     </form>

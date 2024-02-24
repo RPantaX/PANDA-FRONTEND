@@ -3,9 +3,11 @@ import { cargosBD, estadoBD, estadoCivilBD, formatDate, generosBD, nacionalidade
 import { Button, Form, Input, Select } from "antd";
 import './formStyles.css';
 import { useTrabajadores } from "../hook/useTrabajadores";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 
 export const TrabajadorForm = ({trabajadorSelected}) => {
     const {handlerAddTrabajador, initialTrabajadorForm, errorsTrabajador}= useTrabajadores();
+    const{login} = userAuth();
     const [trabajadorForm, setTrabajadorForm] = useState(initialTrabajadorForm)
     const {id, nombres, apellidos, numIdentidad, fechaNacimiento,genero,estadoCivil, nacionalidad, direccionResidencia,telefono, email, cargo, numCuentaBancaria, estado, idUser}=trabajadorForm;
     //estados solo para este formulario
@@ -349,9 +351,14 @@ export const TrabajadorForm = ({trabajadorSelected}) => {
                 </div>
                 
                 <Form.Item wrapperCol={{span: 24}}>
+                    {login.isAdmin?
                     <Button block type="primary" htmlType="submit" style={{width:300}}>
                     {id>0? 'Editar' : 'Registrar'}
                     </Button>
+                    :
+                    <p style={{textAlign:"center", color:"red"}}>Esta es una muestra, solo los Administradores pueden gestionar los registros</p>
+                    }
+                    
                 </Form.Item>
             </Form>
             </header>

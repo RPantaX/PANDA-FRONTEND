@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { tipoLicenciaBD } from "../../utilities/ObjectsBD";
 import { useConductores } from "../hook/useConductores";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 
 export const ConductorForm = ({conductorSelected, handlerCloseFormConductor}) => {
+    const{login} = userAuth();
     const {handlerAddConductor, initialConductorForm, errorsConductor}= useConductores();
     const [conductorForm, setConductorForm] = useState(initialConductorForm)
     const {id, trabajador, tipoLicencia, camion, certConducirCamion, certPsicofisico, certMecanicaBasica, certPrimerosAuxilios, certSeguridadVial}=conductorForm;
@@ -125,17 +127,32 @@ export const ConductorForm = ({conductorSelected, handlerCloseFormConductor}) =>
         <input type="hidden"
             name="id"
             value={id} />
-            <button
-                className="btn btn-primary my-1 mx-1"
-                type="submit"
-            >{id>0? 'Editar' : 'crear'}
+        
+        {
+            login.isAdmin?
+            <>
+            <button className="btn btn-primary my-1 mx-1" type="submit">
+                {id > 0 ? 'Editar' : 'Crear'}
             </button>
-            {!handlerCloseFormConductor || <button
+            {!handlerCloseFormConductor || (
+                <button className="btn btn-danger my-1 mx-1" type="button" onClick={onCloseForm}>
+                    Cerrar
+                </button>
+            )}
+            </>
+            :
+            <>
+            {!handlerCloseFormConductor} <button
               className="btn btn-danger my-1 mx-1"
               type="button"
               onClick={onCloseForm}>
                   Cerrar
-            </button>}
+                </button>
+                <p style={{textAlign:"center", color:"red"}}>Esta es una muestra, solo los Administradores pueden gestionar los registros</p>
+
+            </>
+        }
+        
     </form>
   )
 }

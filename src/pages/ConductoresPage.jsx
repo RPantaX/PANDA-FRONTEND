@@ -2,7 +2,6 @@ import { Button } from "antd";
 import { ConductorList } from "../components/conductores/ConductorList";
 import { ConductorModalForm } from "../components/conductores/ConductorModalForm";
 import { useEffect } from "react";
-import { userAuth } from "../auth/pages/hooks/userAuth";
 import { useConductores } from "../components/hook/useConductores";
 
 
@@ -16,7 +15,6 @@ export const ConductoresPages = () => {
   useEffect(() => {
     getConductores();
   }, []);
-  const{login} = userAuth();
     return (
     <>
     {!visibleForm || 
@@ -26,10 +24,8 @@ export const ConductoresPages = () => {
           <h2 style={{ textAlign:"center"}}>Registro de Conductores</h2>
           <div className="row">
 
-              <div className="col">
-                {(visibleForm ||!login.isAdmin) ||<Button style={{ marginBottom:10}} onClick={handlerOpenFormConductor}>
+              <div className="col"><Button style={{ marginBottom:10}} onClick={handlerOpenFormConductor}>
                 Crear Conductor</Button>
-                }
                 {
                     <ConductorList />
                 }

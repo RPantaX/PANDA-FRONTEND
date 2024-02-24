@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { useCarretas } from "../hook/useCarretas";
+import { userAuth } from "../../auth/pages/hooks/userAuth";
 
 export const CarretaForm = ({carretaSelected, handlerCloseFormCarreta}) => {
+    const{login} = userAuth();
     const {handlerAddCarreta, initialCarretaForm, errorsCarreta}= useCarretas();
     const [carretaForm, setCarretaForm] = useState(initialCarretaForm)
     const {id, marca, capacidadCarga, placa, anoFabricacion}=carretaForm;
@@ -67,17 +69,31 @@ export const CarretaForm = ({carretaSelected, handlerCloseFormCarreta}) => {
         <input type="hidden"
             name="id"
             value={id} />
-            <button
-                className="btn btn-primary my-1 mx-1"
-                type="submit"
-            >{id>0? 'Editar' : 'crear'}
+            
+            {
+            login.isAdmin?
+            <>
+            <button className="btn btn-primary my-1 mx-1" type="submit">
+                {id > 0 ? 'Editar' : 'Crear'}
             </button>
-            {!handlerCloseFormCarreta || <button
+            {!handlerCloseFormCarreta || (
+                <button className="btn btn-danger my-1 mx-1" type="button" onClick={onCloseForm}>
+                    Cerrar
+                </button>
+            )}
+            </>
+            :
+            <>
+            {!handlerCloseFormCarreta} <button
               className="btn btn-danger my-1 mx-1"
               type="button"
               onClick={onCloseForm}>
                   Cerrar
-            </button>}
+                </button>
+                <p style={{textAlign:"center", color:"red"}}>Esta es una muestra, solo los Administradores pueden gestionar los registros</p>
+
+            </>
+        }
     </form>
   )
 }
