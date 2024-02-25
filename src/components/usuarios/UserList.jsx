@@ -11,6 +11,7 @@ export const UserList = () => {
     dataIndex: 'id',
     key: 'id',
     fixed: 'left',
+    align: 'center'
   },
   {
     title: 'Nombres',
@@ -18,42 +19,49 @@ export const UserList = () => {
     dataIndex: 'nombres',
     key: 'nombres',
     fixed: 'left',
+    align: 'center'
   },
   {
     title: 'apellidos',
     dataIndex: 'apellidos',
     key: 'apellidos',
     width: 200,
+    align: 'center'
   },
   {
     title: 'N° de identidad',
     dataIndex: 'numIdentidad',
     key: 'numIdentidad',
     width: 150,
+    align: 'center'
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
     width: 250,
+    align: 'center'
   },
   {
     title: 'Username',
     dataIndex: 'username',
     key: 'username',
     width: 250,
+    align: 'center'
   },
   {
     title: 'Teléfono',
     dataIndex: 'telefono',
     key: 'telefono',
     width: 150,
+    align: 'center'
   },
   {
     title: 'Acciones',
     key: 'operation',
     fixed: 'right',
     width: 100,
+    align: 'center',
     render: (record)=>{
       return <>
       <EditOutlined onClick={()=>handlerUserSelectedForm(record)} style={{color:"blue", marginLeft: 12}}/>
@@ -65,7 +73,7 @@ export const UserList = () => {
 ];
     return (
       <Table 
-      className="styled-table"
+      className="styled-table custom-table-header"
       columns={columns} 
       dataSource={users}  
       scroll={{

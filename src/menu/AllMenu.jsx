@@ -14,6 +14,8 @@ import { userAuth } from '../auth/pages/hooks/userAuth';
 import { GuiaTransportistaPage } from '../pages/GuiaTransportistaPage';
 import { RegisterPagesGuia } from '../components/guiaTransportista/RegisterPagesGuia';
 import { GuiaPdf } from '../components/guiaTransportista/GuiaPdf';
+import { FacturasPage } from '../pages/FacturasPage';
+import { RegisterPagesFactura } from '../components/facturas/RegisterPagesFactura';
 
 const {Header, Sider} = Layout;
 
@@ -51,6 +53,8 @@ export const AllMenu = () => {
         <Routes>
             <Route path="/trabajadores" element={<TrabajadoresPages/>} />
             <Route path="/guia-transportistas" element={< GuiaTransportistaPage/>} />
+            <Route path="/facturas" element={< FacturasPage/>} />
+            <Route path="/factura/register" element={ <RegisterPagesFactura/>} />
             <Route path="/conductores" element={<ConductoresPages/>} />
             <Route path="/camiones" element={<CamionesPage/>} />
             <Route path="/carretas" element={<CarretasPage/>} />

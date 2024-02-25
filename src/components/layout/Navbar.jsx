@@ -11,7 +11,7 @@ const Navbar = () => {
     const menu = (
         <Menu>
           <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handlerLogout}>
-            Logout
+            Salir
           </Menu.Item>
         </Menu>
       );

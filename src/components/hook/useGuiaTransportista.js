@@ -31,7 +31,7 @@ export const useGuiaTransportistas = () => {
           dispatch(addGuia(response.data))
           Swal.fire({
               title: "Registro Creado",
-              text: "El rRegistro ha sido creado con éxito!",
+              text: "El Registro ha sido creado con éxito!",
               icon: "success"
             });
             navigate('/guia-transportistas')

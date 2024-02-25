@@ -36,7 +36,7 @@ export const MenuList = () => {
             <Menu.SubMenu key="documentos" icon={<FolderOpenOutlined />}
             title="Citas y documentos">
                 <Menu.Item key={"facturas"} icon={<FilePdfOutlined />}>
-                Facturas
+                <Link to="/facturas">Facturas</Link>
                 </Menu.Item>
                 <Menu.Item key={"guiasRemitente"} icon={<FilePptOutlined />}>
                 <Link to="/guia-transportistas">Guias de transportista</Link>

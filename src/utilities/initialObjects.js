@@ -181,3 +181,20 @@ export const initialGuiaTransportistaById={
     placaVehiculo:'',
     rucPagadorDelFlete:''
 }
+export const initialFacturaForm={
+    id:'',
+    clienteRuc:'',
+    observacion:'',
+    seguieGuia:'',
+    numeroGuia:0,
+    idUser:0,
+    items:[
+    ]
+}
+export const initialErrorsFactura={
+    clienteRuc:'',
+    observacion:'',
+    seguieGuia:'',
+    numeroGuia:'',
+    idUser:'',
+}

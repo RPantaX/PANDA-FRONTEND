@@ -6,6 +6,7 @@ import { conductorSlice } from "./slices/conductor/conductorSlice";
 import { carretaSlice } from "./slices/carreta/carretaSlice";
 import { camionSlice } from "./slices/camion/camionesSlice";
 import { guiaTransportistaSlice } from "./slices/guiaTransportista/guiaTransportistaSlice";
+import { facturaSlice } from "./slices/facturas/facturaSlice";
 
 export const store = configureStore({
     reducer:{
@@ -16,5 +17,6 @@ export const store = configureStore({
         carretas: carretaSlice.reducer,
         camiones: camionSlice.reducer,
         guiaTransportista: guiaTransportistaSlice.reducer,
+        facturas:facturaSlice.reducer,
     }
 })

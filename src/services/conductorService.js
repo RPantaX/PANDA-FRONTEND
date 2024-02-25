@@ -3,7 +3,7 @@ import AllApis from "../apis/AllApis";
 const BASE_URL='';
 export const findAll = async(page) => {
     try{
-        const response= await AllApis.get(`${BASE_URL}conductores?pageNo=0&pageSize=10`);
+        const response= await AllApis.get(`${BASE_URL}conductores?pageNo=${page}&pageSize=10`);
         return response;
     }catch(error){
         console.error(error);

@@ -2,21 +2,22 @@ import {  useEffect, useState } from "react"
 import { Button, Input, Table } from "antd";
 import {FilePdfOutlined, SearchOutlined} from '@ant-design/icons'
 import { NavLink } from "react-router-dom";
-import { useGuiaTransportistas } from "../hook/useGuiaTransportista";
+import { useFacturas } from "../hook/useFacturas";
 import '../ListStyle.css';
 
-export const GuiaTransportistaList = () => {
+
+export const FacturaList = () => {
   
-  const {guiaTransportista,getguiaTransportistas}= useGuiaTransportistas();
+  const {facturas,getFacturas}= useFacturas();
   
-  const {contenido, totalPaginas}=guiaTransportista|| { contenido: []  , totalPaginas: 1};
+  const {contenido, totalPaginas}=facturas|| { contenido: []  , totalPaginas: 1};
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      await getguiaTransportistas(0);
+      await getFacturas(0);
       setLoading(false);
     };
     fetchData();
@@ -25,7 +26,7 @@ export const GuiaTransportistaList = () => {
     setDataSource(contenido);
   }, [contenido]);
   const handlePageChange = (page) => {
-    getguiaTransportistas(page - 1); // La paginación de Ant Design comienza desde 1, pero en mi servicio comienza desde 0
+    getFacturas(page - 1); // La paginación de Ant Design comienza desde 1, pero en mi servicio comienza desde 0
   };
 
   const columns = [
@@ -40,14 +41,14 @@ export const GuiaTransportistaList = () => {
   {
     title: 'Serie',
     width: 200,
-    dataIndex: 'serieGuia',
-    key: 'serieGuia',
+    dataIndex: 'serieFactura',
+    key: 'serieFactura',
     align: 'center'
   },
   {
-    title: 'N° Guia',
-    dataIndex: 'numeroGuia',
-    key: 'numeroGuia',
+    title: 'N° Factura',
+    dataIndex: 'numeroFactura',
+    key: 'numeroFactura',
     width: 200,
     align: 'center',
     filterDropdown: ({
@@ -96,27 +97,13 @@ export const GuiaTransportistaList = () => {
       return <SearchOutlined style={{ color: "white", fontSize: "20px" }}/>;
     },
     onFilter: (value, record) => {
-      return record.numeroGuia==value;
+      return record.numeroFactura==value;
     },
   },
   {
-    title: 'Dirección Partida',
-    dataIndex: 'partida',
-    key: 'partida',
-    width: 150,
-    align: 'center'
-  },
-  {
-    title: 'Dirección Llegada',
-    dataIndex: 'llegada',
-    key: 'llegada',
-    width: 150,
-    align: 'center'
-  },
-  {
-    title: 'Fecha Traslado',
-    dataIndex: 'fechaTraslado',
-    key: 'fechaTraslado',
+    title: 'Fecha De emisión',
+    dataIndex: 'fechaEmision',
+    key: 'fechaEmision',
     width: 150,
     align: 'center',
     render: (fecha) => new Date(fecha).toLocaleDateString('es-ES', {
@@ -126,53 +113,58 @@ export const GuiaTransportistaList = () => {
     }),
   },
   {
-    title: 'Ruc Remitente',
-    dataIndex: 'remitenteRuc',
-    key: 'remitenteRuc',
+    title: 'Monto total',
+    dataIndex: 'montoTotal',
+    key: 'montoTotal',
     width: 150,
     align: 'center'
   },
   {
-    title: 'Ruc destinatario',
-    dataIndex: 'destinatarioRuc',
-    key: 'destinatarioRuc',
-    width: 150,
-    align: 'center'
+    title: 'Información Cliente',
+    align: 'center',
+    children:[
+        {
+            title: 'Ruc',
+            dataIndex: 'clienteRuc',
+            key: 'clienteRuc',
+            width: 150,
+            align: 'center'
+        },
+        {
+            title: 'Razón social',
+            dataIndex: 'clienteRazonSocial',
+            key: 'clienteRazonSocial',
+            width: 150,
+            align: 'center'
+        },
+        {
+            title: 'Dirección',
+            dataIndex: 'clienteDireccion',
+            key: 'clienteDireccion',
+            width: 300,
+            align: 'center'
+        },
+    ]
   },
   {
-    title: 'Peso de Carga',
-    dataIndex: 'pesoCarga',
-    key: 'pesoCarga',
-    width: 150,
-    align: 'center'
-  },
-  {
-    title: 'N° Doc Chofer',
-    dataIndex: 'numDocChofer',
-    key: 'numDocChofer',
-    width: 300,
-    align: 'center'
-  },
-  {
-    title: 'Nombre Chofer',
-    dataIndex: 'nombreChofer',
-    key: 'nombreChofer',
-    width: 150,
-    align: 'center'
-  },
-  {
-    title: 'Placa Camión',
-    dataIndex: 'placaVehiculo',
-    key: 'placaVehiculo',
-    width: 250,
-    align: 'center'
-  },
-  {
-    title: 'Ruc Pagador Flete',
-    dataIndex: 'rucPagadorDelFlete',
-    key: 'rucPagadorDelFlete',
-    width: 150,
-    align: 'center'
+    title: 'Guia de Transportista',
+    align: 'center',
+    children:[
+        {
+            title: 'Serie',
+            dataIndex: 'serieGuia',
+            key: 'serieGuia',
+            width: 150,
+            align: 'center'
+        },
+        {
+            title: 'Número',
+            dataIndex: 'numeroGuia',
+            key: 'numeroGuia',
+            width: 150,
+            align: 'center'
+        },
+    ]
   },
   {
     title: 'Acciones',
