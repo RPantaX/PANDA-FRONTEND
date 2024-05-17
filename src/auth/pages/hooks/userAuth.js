@@ -14,7 +14,6 @@ export const userAuth = () => {
         
         try{
           const response = await loginUser({username, password})
-          console.log(response);
           const token=response.data.jwt;
           const claims = JSON.parse(window.atob(token.split(".")[1])); //el token se separa por puntos cabezera, claims, firma./viene en base 64->atob nos permite decodificar un script en base 64
           const user = {username: response.data.username}

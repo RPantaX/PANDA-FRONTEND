@@ -8,6 +8,7 @@ export const camionSlice = createSlice({
         camionSelected: initialCamionForm,
         visibleForm:false,
         errorsCamion:initialErrorsCamion,
+        isLoading: true,
     },
     reducers:{
         addCamion : (state, action)=>{
@@ -41,7 +42,7 @@ export const camionSlice = createSlice({
         },
         loadingCamion: (state, action) =>{
             state.camiones=action.payload;
-            
+            state.isLoading = false;
         },
         onCamionSelectedForm: (state, action) =>{
             state.camionSelected=action.payload;

@@ -7,7 +7,7 @@ import '../ListStyle.css';
 
 export const GuiaTransportistaList = () => {
   
-  const {guiaTransportista,getguiaTransportistas}= useGuiaTransportistas();
+  const {guiaTransportista,getguiaTransportistas, isLoading}= useGuiaTransportistas();
   
   const {contenido, totalPaginas}=guiaTransportista|| { contenido: []  , totalPaginas: 1};
   const [dataSource, setDataSource] = useState([]);
@@ -189,6 +189,13 @@ export const GuiaTransportistaList = () => {
     ),
   }
 ];
+if(isLoading){
+  return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  )
+}
     return (
       <Table 
       className="styled-table custom-table-header"

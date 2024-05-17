@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCarreta, loadingCarreta, loadingError, onCarretaSelectedForm, onCloseForm, removeCarreta, updateCarreta, onOpenForm } from "../../store/slices/carreta/carretaSlice";
 
 export const useCarretas = () => {
-    const {carretas,carretaSelected, visibleForm, errorsCarreta } = useSelector(state => state.carretas);
+    const {carretas,carretaSelected, visibleForm, errorsCarreta, isLoading } = useSelector(state => state.carretas);
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -119,6 +119,7 @@ export const useCarretas = () => {
         initialCarretaForm,
         visibleForm,
         errorsCarreta,
+        isLoading,
         handlerAddCarreta,
         handlerRemoveCarreta,
         handlerCarretaSelectedForm,

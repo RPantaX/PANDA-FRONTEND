@@ -7,7 +7,8 @@ export const guiaTransportistaSlice = createSlice({
         guiaTransportista:globalinitialObjects,
         guiaTransportistaSelected: initialGuiaTransportistaForm,
         errorsGuiaTransportista:initialErrorsGuiaTransportista,
-        guiaByIdFirst:initialGuiaTransportistaById
+        guiaByIdFirst:initialGuiaTransportistaById,
+        isLoading: true,
     },
     reducers:{
         addGuia : (state, action)=>{
@@ -30,6 +31,7 @@ export const guiaTransportistaSlice = createSlice({
         },
         loadingGuia: (state, action) =>{
             state.guiaTransportista=action.payload;
+            state.isLoading = false;
         },
         onGuiaSelectedForm: (state, action) =>{
             state.guiaTransportistaSelected=action.payload;

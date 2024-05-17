@@ -8,6 +8,7 @@ export const conductorSlice = createSlice({
         conductorSelected: initialConductorForm,
         visibleForm:false,
         errorsConductor:initialErrorsConductor,
+        isLoading: true,
     },
     reducers:{
         addConductor : (state, action)=>{
@@ -41,7 +42,7 @@ export const conductorSlice = createSlice({
         },
         loadingConductor: (state, action) =>{
             state.conductores=action.payload;
-            
+            state.isLoading = false;
         },
         onConductorSelectedForm: (state, action) =>{
             state.conductorSelected=action.payload;

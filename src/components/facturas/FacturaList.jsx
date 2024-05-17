@@ -8,7 +8,7 @@ import '../ListStyle.css';
 
 export const FacturaList = () => {
   
-  const {facturas,getFacturas}= useFacturas();
+  const {facturas,getFacturas, isLoading}= useFacturas();
   
   const {contenido, totalPaginas}=facturas|| { contenido: []  , totalPaginas: 1};
   const [dataSource, setDataSource] = useState([]);
@@ -181,6 +181,13 @@ export const FacturaList = () => {
     ),
   }
 ];
+if(isLoading){
+  return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  )
+}
     return (
       <Table 
       className="styled-table custom-table-header"

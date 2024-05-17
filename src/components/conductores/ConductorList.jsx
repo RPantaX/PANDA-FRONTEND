@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined, SearchOutlined} from '@ant-design/icons'
 import { useConductores } from "../hook/useConductores";
 import '../ListStyle.css';
 export const ConductorList = () => {
-    const {conductores,getConductores,handlerRemoveConductor, handlerConductorSelectedForm}= useConductores();
+  const {conductores,getConductores,handlerRemoveConductor, handlerConductorSelectedForm, isLoading}= useConductores();
   
   const {contenido, totalPaginas}=conductores|| { contenido: [], totalPaginas: 1 };
   const [dataSource, setDataSource] = useState([]);
@@ -280,7 +280,13 @@ export const ConductorList = () => {
     }
   }
 ];
-
+if(isLoading){
+  return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  )
+}
 
     return (
       <Table 

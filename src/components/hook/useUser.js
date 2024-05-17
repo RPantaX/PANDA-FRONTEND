@@ -8,7 +8,7 @@ import { initialUserForm } from "../../utilities/initialObjects";
 //con esto manipulamos y modificamos los datos
 
 export const useUser = () => {
-    const {users, userSelected, visibleFormUser, errorsUser} = useSelector(state => state.users); //data modificada.
+    const {users, userSelected, visibleFormUser, errorsUser, isLoading} = useSelector(state => state.users); //data modificada.
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -125,6 +125,7 @@ export const useUser = () => {
         initialUserForm,
         visibleFormUser,
         errorsUser,
+        isLoading,
         handlerAddUser,
         handlerRemoveUser,
         handlerUserSelectedForm,

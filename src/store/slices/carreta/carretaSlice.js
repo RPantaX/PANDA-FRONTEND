@@ -8,6 +8,7 @@ export const carretaSlice = createSlice({
         carretaSelected:initialCarretaForm,
         visibleForm:false,
         errorsCarreta: initialErrorsCarreta,
+        isLoading: true,
     },
     reducers:{
         addCarreta: (state, action) =>{
@@ -41,6 +42,7 @@ export const carretaSlice = createSlice({
         },
         loadingCarreta: (state, action) =>{
             state.carretas=action.payload;
+            state.isLoading = false;
         },
         onCarretaSelectedForm: (state, action) =>{
             state.carretaSelected=action.payload;

@@ -7,7 +7,8 @@ export const facturaSlice = createSlice({
         facturas:globalinitialObjects,
         facturaSelected: initialFacturaForm,
         errorsFactura:initialErrorsFactura,
-        guiaByIdFirst:initialGuiaTransportistaById
+        guiaByIdFirst:initialGuiaTransportistaById,
+        isLoading: true,
     },
     reducers:{
         addFactura : (state, action)=>{
@@ -25,6 +26,7 @@ export const facturaSlice = createSlice({
         },
         loadingFactura: (state, action) =>{
             state.facturas=action.payload;
+            state.isLoading = false;
         },
         onFacturaSelectedForm: (state, action) =>{
             state.facturaSelected=action.payload;

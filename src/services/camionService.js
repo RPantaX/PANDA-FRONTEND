@@ -6,14 +6,12 @@ export const findAll = async(page) => {
         const response= await AllApis.get(`${BASE_URL}camiones?pageNo=${page}&pageSize=10`);
         return response;
     }catch(error){
-        console.error(error);
         throw error;
     }
 }
 export const save= async(camion)=>{
     
     try{
-        console.log(camion)
         const ChangeCamion = {
             marca: camion.marca,
             modelo: camion.modelo,
@@ -23,11 +21,8 @@ export const save= async(camion)=>{
                 id:camion.carreta.id,
                 }
             };
-            //console.log(camion);
-            console.log(ChangeCamion);
         return await AllApis.post(`${BASE_URL}camion`, ChangeCamion);
     }catch(error){
-        console.error(error);
         throw error;
         
     }
@@ -46,7 +41,6 @@ export const update=async(camion)=>{
             };  
         return await AllApis.put(`${BASE_URL}camion/${camion.id}`, ChangeCamion);
     }catch(error){
-        console.error(error);
         throw error;
     }
 }
@@ -54,7 +48,6 @@ export const remove = async(id)=>{
     try{
         await AllApis.delete(`${BASE_URL}camion/${id}`);
     }catch(error){
-        console.error(error);
         throw error;
     }
 }

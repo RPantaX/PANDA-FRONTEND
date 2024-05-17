@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined, SearchOutlined} from '@ant-design/icons'
 import { useCamiones } from "../hook/useCamiones";
 import '../ListStyle.css';
 export const CamionList = () => {
-    const {camiones,getCamiones,handlerRemoveCamion, handlerCamionSelectedForm}= useCamiones();
+    const {camiones,getCamiones,handlerRemoveCamion, handlerCamionSelectedForm, isLoading}= useCamiones();
   
   const {contenido, totalPaginas}=camiones|| { contenido: [] , totalPaginas: 1};
   const [dataSource, setDataSource] = useState([]);
@@ -153,7 +153,13 @@ export const CamionList = () => {
     }
   }
 ];
-
+if(isLoading){
+  return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  )
+}
     return (
       <Table 
       className="styled-table custom-table-header"

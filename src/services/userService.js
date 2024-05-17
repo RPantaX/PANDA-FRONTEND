@@ -7,7 +7,6 @@ export const findAll = async() => {
         const response= await AllApis.get(`${BASE_URL}users`);
         return response;
     }catch(error){
-        console.error(error);
         throw error;
     }
 }

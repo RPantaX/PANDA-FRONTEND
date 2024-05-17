@@ -9,12 +9,20 @@ export const UsersPage = () => {
     const {
         visibleFormUser,
         handlerOpenFormUser,
+        isLoading,
         getUsers,
       } = useUser(); //obtenemos la data de redux con nuestro hook
     
       useEffect(() => {
         getUsers();
       }, []);
+      if(isLoading){
+        return (
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        )
+      }
         return (
         <>
         {!visibleFormUser || 

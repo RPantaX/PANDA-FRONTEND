@@ -6,7 +6,6 @@ import { generatePdf } from "../services/trabajadorService";
 
 export const TrabajadoresPages = () => {
   const [loader, setLoader] = useState(false);
-
   const downloadPDF = async () => {
     try {
         setLoader(true);
@@ -30,7 +29,6 @@ export const TrabajadoresPages = () => {
         // Manejar el error según sea necesario
     }
 };
-  
     return (
     <>
       <div className="container my-4">

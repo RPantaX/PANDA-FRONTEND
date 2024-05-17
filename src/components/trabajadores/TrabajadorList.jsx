@@ -6,7 +6,7 @@ import { useTrabajadores } from "../hook/useTrabajadores";
 import '../ListStyle.css';
 export const TrabajadorList = () => {
   
-  const {trabajadores,getTrabajadores,handlerRemoveTrabajador}= useTrabajadores();
+  const {trabajadores,getTrabajadores,handlerRemoveTrabajador, isLoading}= useTrabajadores();
   
   const { contenido, totalPaginas } = trabajadores || { contenido: [], totalPaginas: 1 };
 
@@ -318,7 +318,13 @@ export const TrabajadorList = () => {
     ),
   }
 ];
-
+if(isLoading){
+  return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  )
+}
     return (
       <Table 
       className="styled-table custom-table-header"

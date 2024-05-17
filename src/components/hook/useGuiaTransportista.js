@@ -7,7 +7,7 @@ import { userAuth } from "../../auth/pages/hooks/userAuth";
 import { addGuia, guiaById, loadingError, loadingGuia, onGuiaSelectedForm } from "../../store/slices/guiaTransportista/guiaTransportistaSlice";
 
 export const useGuiaTransportistas = () => {
-    const {guiaTransportista, guiaTransportistaSelected, errorsGuiaTransportista, guiaByIdFirst} = useSelector(state => state.guiaTransportista);
+    const {guiaTransportista, guiaTransportistaSelected, errorsGuiaTransportista, guiaByIdFirst, isLoading} = useSelector(state => state.guiaTransportista);
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -70,6 +70,7 @@ export const useGuiaTransportistas = () => {
         initialGuiaTransportistaForm,
         errorsGuiaTransportista,
         handlerAddGuia,
+        isLoading,
         handlerGuiaSelectedForm,
         getguiaTransportistas,
         handlerGetByIdGuia,

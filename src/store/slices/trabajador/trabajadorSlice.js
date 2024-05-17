@@ -7,6 +7,7 @@ export const trabajadorSlice = createSlice({
         trabajadores:globalinitialObjects,
         trabajadorSelected: initialTrabajadorForm,
         errorsTrabajador:initialErrorsTrabajador,
+        isLoading: true,
     },
     reducers:{
         addTrabajador : (state, action)=>{
@@ -38,6 +39,7 @@ export const trabajadorSlice = createSlice({
         },
         loadingTrabajadores: (state, action) =>{
             state.trabajadores=action.payload;
+            state.isLoading = false;
         },
         onTrabajadorSelectedForm: (state, action) =>{
             state.trabajadorSelected=action.payload;

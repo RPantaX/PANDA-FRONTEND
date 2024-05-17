@@ -6,7 +6,7 @@ import { userAuth } from "../../auth/pages/hooks/userAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { addConductor, loadingConductor, loadingError, onCloseForm, onConductorSelectedForm, onOpenForm, removeConductor, updateConductor } from "../../store/slices/conductor/conductorSlice";
 export const useConductores = () => {
-    const {conductores,conductorSelected, errorsConductor, visibleForm } = useSelector(state => state.conductores)
+    const {conductores,conductorSelected, errorsConductor, visibleForm, isLoading } = useSelector(state => state.conductores)
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -119,6 +119,7 @@ export const useConductores = () => {
         initialConductorForm,
         visibleForm,
         errorsConductor,
+        isLoading,
         handlerAddConductor,
         handlerRemoveConductor,
         handlerConductorSelectedForm,

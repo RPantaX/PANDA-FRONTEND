@@ -7,7 +7,7 @@ import { userAuth } from "../../auth/pages/hooks/userAuth";
 import { addFactura, loadingError, loadingFactura, onFacturaSelectedForm } from "../../store/slices/facturas/facturaSlice";
 
 export const useFacturas = () => {
-    const {facturas, facturaSelected, errorsFactura} = useSelector(state => state.facturas);
+    const {facturas, facturaSelected, errorsFactura, isLoading} = useSelector(state => state.facturas);
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -61,6 +61,7 @@ export const useFacturas = () => {
         facturaSelected,
         initialFacturaForm,
         errorsFactura,
+        isLoading,
         handlerAddFactura,
         handlerFacturaSelectedForm,
         getFacturas

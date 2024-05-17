@@ -7,7 +7,7 @@ import { addTrabajador, loadingTrabajadores, onTrabajadorSelectedForm, removeTra
 import { userAuth } from "../../auth/pages/hooks/userAuth";
 
 export const useTrabajadores = () => {
-    const {trabajadores, trabajadorSelected, errorsTrabajador} = useSelector(state => state.trabajadores);
+    const {trabajadores, trabajadorSelected, errorsTrabajador, isLoading} = useSelector(state => state.trabajadores);
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -116,6 +116,7 @@ export const useTrabajadores = () => {
         trabajadorSelected,
         initialTrabajadorForm,
         errorsTrabajador,
+        isLoading,
         handlerAddTrabajador,
         handlerRemoveTrabajador,
         handlerTrabajadorSelectedForm,

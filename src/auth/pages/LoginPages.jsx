@@ -34,7 +34,7 @@ export const LoginPages = () => {
     const loginAsGuest = () => {
         // Definir las credenciales para invitados
         const guestCredentials = {
-            username: "pimpolO",
+            username: "Invitado",
             password: "RPantaX#."
         };
         // Iniciar sesión con las credenciales de invitado

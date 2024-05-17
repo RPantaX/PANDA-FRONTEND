@@ -6,7 +6,7 @@ import { userAuth } from "../../auth/pages/hooks/userAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { addCamion, loadingCamion, loadingError, onCamionSelectedForm, removeCamion, updateCamion, onCloseForm, onOpenForm } from "../../store/slices/camion/camionesSlice";
 export const useCamiones = () => {
-    const {camiones, camionSelected, visibleForm, errorsCamion} = useSelector(state => state.camiones);
+    const {camiones, camionSelected, visibleForm, errorsCamion, isLoading} = useSelector(state => state.camiones);
     const dispatch = useDispatch();
     const{login, handlerLogout} = userAuth();
     const navigate=useNavigate();
@@ -121,6 +121,7 @@ export const useCamiones = () => {
         initialCamionForm,
         visibleForm,
         errorsCamion,
+        isLoading,
         handlerAddCamion,
         handlerRemoveCamion,
         handlerCamionSelectedForm,
